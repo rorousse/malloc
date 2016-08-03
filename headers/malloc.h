@@ -10,6 +10,15 @@
 
 /* structures de donnes */
 
+struct s_pr_alloc
+{
+	char				*ptr;
+	unsigned int		nb;
+	int					type;
+};
+
+typedef struct s_pr_alloc t_pr_alloc;
+	
 struct s_memzone
 {
 	void				*ptr;
@@ -30,13 +39,19 @@ void	*realloc(void *ptr, size_t size);
 ** ALLOCATION_C
 */
 
-void	*get_tiny(void);
-void	*get_small(void);
+t_pr_alloc	*get_tiny(void);
+t_pr_alloc	*get_small(void);
 
 /*
 ** MALLOC_C
 */
 
 void	*ft_malloc(size_t size);
+
+/*
+** PLACEMENT_C
+*/
+
+char	*find_place(t_pr_alloc zone);
 
 #endif

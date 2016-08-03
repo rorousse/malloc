@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   placement.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/02 19:19:36 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 16:51:21 by rorousse         ###   ########.fr       */
+/*   Created: 2016/08/03 16:57:23 by rorousse          #+#    #+#             */
+/*   Updated: 2016/08/03 17:52:53 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mman.h>
-#include "headers/malloc.h"
+# include "malloc.h"
 
-int main()
+static int	check_place(t_pr_alloc zone)
 {
-	ft_malloc(2);
-	ft_malloc(2);
-	return (0);
+	unsigned int	i;
+
+	i = 0;
+	while (i < zone.nb)
+	{
+		if (zone.ptr[i] == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
-/*
-** une page = 4096 octets
-** ZONE TINY = 128 * 32 octets pour un total d'une page == une page divisee en 128 zones d'alloc 
-** ZONE SMALL = 128 * 256 octets pour un total de 32768 == 8 pages divisees en 128 zones memoires
-*/
+char	*find_place(t_pr_alloc zone)
+{
+	int 	place;
+	char	*addr;
+
+	addr = NULL;
+	place = check_place(zone);
+	if (place  != -1)
+		addr = zone.ptr + zone.nb + (place * zone.type);
+	return (addr);
+}

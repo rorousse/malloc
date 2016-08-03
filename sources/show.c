@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   show.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/02 19:19:36 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 16:51:21 by rorousse         ###   ########.fr       */
+/*   Created: 2016/08/03 18:02:02 by rorousse          #+#    #+#             */
+/*   Updated: 2016/08/03 21:09:38 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mman.h>
-#include "headers/malloc.h"
+#include "malloc.h"
 
-int main()
+void	show_alloc_mem()
 {
-	ft_malloc(2);
-	ft_malloc(2);
-	return (0);
-}
+	t_pr_alloc zones[2];
 
-/*
-** une page = 4096 octets
-** ZONE TINY = 128 * 32 octets pour un total d'une page == une page divisee en 128 zones d'alloc 
-** ZONE SMALL = 128 * 256 octets pour un total de 32768 == 8 pages divisees en 128 zones memoires
-*/
+	zones[0] = get_tiny();
+	zones[1] = get_small();
+	

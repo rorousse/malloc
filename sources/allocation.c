@@ -6,7 +6,7 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 18:52:41 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/02 23:29:34 by rorousse         ###   ########.fr       */
+/*   Updated: 2016/08/03 17:56:39 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,56 +19,53 @@ static unsigned int		det_size_zone(unsigned int mode)
 	unsigned int	page;
 	unsigned int	count;
 
-	count = mode;
+	count = mode * 100;
 	page = getpagesize();
 	while ((count/mode < 100) || (count % mode != 0) || (count % page != 0))
 		   count = count + mode;
-	printf("%u\n", count);
-	return (count);
+	return (count/mode);
 }
 
-void	*get_tiny()
+t_pr_alloc	*get_tiny()
 {
-	static int		init = 0;
-	static int		etat[128];
-	static void		*ptr_tiny;
-	unsigned int	zone;
-	int				i;
+	static int			init = 0;
+	static t_pr_alloc	zone;
+	unsigned int		i;
 
-	i = 0;
 	if (init == 0)
 	{
-		while (i < 128)
+		zone.nb = det_size_zone(TINY);
+		zone.ptr = mmap(NULL, zone.nb * (TINY + 1), PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		zone.type = TINY;
+		init = 1;
+		i = 0;
+		while (i < zone.nb)
 		{
-			etat[i] = 0;
+			zone.ptr[i] = 0;
 			i++;
 		}
-		zone = det_size_zone(TINY);
-		ptr_tiny = mmap(NULL, zone + TINY, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-		init = 1;
 	}
-	return (ptr_tiny);
+	return (&zone);
 }
 
-void   *get_small()
+t_pr_alloc  * get_small()
 {
-    static int  	init = 0;
-	static int		etat[128];
-    static void 	*ptr_small;
-	unsigned int 	zone; 
-	int				i;
+    static int  		init = 0;
+    static t_pr_alloc	zone;
+	unsigned int		i;
 
-	i = 0;
     if (init == 0)
     {
-		while (i < 128)
+		zone.nb = det_size_zone(SMALL);
+		zone.ptr = mmap(NULL, zone.nb * (SMALL + 1), PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		init = 1;
+		i = 0;
+		zone.type = SMALL;
+		while (i < zone.nb)
 		{
-			etat[i] = 0;
+			zone.ptr[i] = 0;
 			i++;
 		}
-		zone = det_size_zone(SMALL);
-		ptr_small = mmap(NULL, zone + SMALL, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-		init = 1;
     }
-    return (ptr_small);
+    return (&zone);
 }
