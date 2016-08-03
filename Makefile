@@ -6,7 +6,7 @@
 #    By: rorousse <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 03:14:08 by rorousse          #+#    #+#              #
-#    Updated: 2016/08/02 22:28:44 by rorousse         ###   ########.fr        #
+#    Updated: 2016/08/03 15:16:32 by rorousse         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,9 +23,9 @@ OBJNAME= $(SRC:.c=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJNAME))
 FLAGS = -Wall -Wextra -O0 -g -Wmissing-prototypes -Werror
 
-all: $(NAME)
+all: create_obj $(NAME)
 
-$(NAME): create_obj $(OBJ)
+$(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 	libtool -static -o $(NAME) $(NAME) $(LIBS)
 
