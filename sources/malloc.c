@@ -6,7 +6,7 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 18:31:21 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 17:56:21 by rorousse         ###   ########.fr       */
+/*   Updated: 2016/08/08 22:43:10 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void	*ft_malloc(size_t size)
 	if (size <= TINY)
 	{
 		zone = get_tiny();
-		addr = find_place(zone);
+		addr = find_place(zone, size);
 	}
 	if (addr == NULL && size <= SMALL)
 	{
 		zone = get_small();
-		addr = find_place(zone);
+		addr = find_place(zone, size);
 	}
-	printf("la zone est %p\n", zone->ptr);
-	return (0);
+//	if (addr == NULL)
+		// on alloue une grosse zone memoire
+	return ((void*)addr);
 }

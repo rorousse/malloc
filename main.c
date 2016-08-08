@@ -6,7 +6,7 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 19:19:36 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 16:51:21 by rorousse         ###   ########.fr       */
+/*   Updated: 2016/08/08 22:17:45 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@
 
 int main()
 {
-	ft_malloc(2);
-	ft_malloc(2);
+	char *lol;
+	char	*mdr;
+
+	lol = ft_malloc(2);
+	mdr = ft_malloc(3);
+	printf("le pointeur est %p et %p \n", lol, mdr);
+	show_alloc_mem();
+	ft_free(lol);
+	show_alloc_mem();
 	return (0);
 }
 

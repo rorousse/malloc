@@ -6,7 +6,7 @@
 #    By: rorousse <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 03:14:08 by rorousse          #+#    #+#              #
-#    Updated: 2016/08/03 17:52:06 by rorousse         ###   ########.fr        #
+#    Updated: 2016/08/04 20:10:27 by rorousse         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,6 +18,7 @@ SRC = 	free.c			\
 		malloc.c		\
 		allocation.c	\
 		placement.c		\
+		show.c			\
 
 LIBS = libft/libft.a
 OBJNAME= $(SRC:.c=.o)

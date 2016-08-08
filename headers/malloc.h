@@ -13,6 +13,7 @@
 struct s_pr_alloc
 {
 	char				*ptr;
+	char				*data;
 	unsigned int		nb;
 	int					type;
 };
@@ -29,10 +30,6 @@ struct s_memzone
 
 typedef struct s_memzone t_memzone;
 
-void	free(void *ptr);
-void	*malloc(size_t size);
-void	*realloc(void *ptr, size_t size);
-
 /* Prototypes */
 
 /*
@@ -41,6 +38,12 @@ void	*realloc(void *ptr, size_t size);
 
 t_pr_alloc	*get_tiny(void);
 t_pr_alloc	*get_small(void);
+
+/*
+** FREE_C
+*/
+
+void		ft_free(void *ptr);
 
 /*
 ** MALLOC_C
@@ -52,6 +55,12 @@ void	*ft_malloc(size_t size);
 ** PLACEMENT_C
 */
 
-char	*find_place(t_pr_alloc zone);
+char	*find_place(t_pr_alloc *zone, size_t size);
+
+/*
+** SHOW_C
+*/
+
+void	show_alloc_mem(void);
 
 #endif

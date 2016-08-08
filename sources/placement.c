@@ -6,34 +6,47 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 16:57:23 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 17:52:53 by rorousse         ###   ########.fr       */
+/*   Updated: 2016/08/08 21:05:18 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 # include "malloc.h"
 
 static int	check_place(t_pr_alloc zone)
 {
 	unsigned int	i;
+	unsigned int	*nb;
 
 	i = 0;
 	while (i < zone.nb)
 	{
-		if (zone.ptr[i] == 0)
+		nb = (unsigned int*)(zone.data + (i * sizeof(unsigned int)));
+		if (*nb == 0)
+		{
+			printf("%u\n",i);
 			return (i);
+		}
 		i++;
 	}
+	ft_putendl("Error placement");
 	return (-1);
 }
 
-char	*find_place(t_pr_alloc zone)
+char	*find_place(t_pr_alloc *zone, size_t size)
 {
-	int 	place;
-	char	*addr;
+	unsigned int	*nb;	
+	int 			place;
+	char			*addr;
 
 	addr = NULL;
-	place = check_place(zone);
+	place = check_place(*zone);
 	if (place  != -1)
-		addr = zone.ptr + zone.nb + (place * zone.type);
+	{
+		addr = zone->ptr + (place * zone->type);
+		nb = (unsigned int*)(zone->data + (place * sizeof(unsigned int)));
+		*nb = size;
+	}
+	printf("l'addresse est %p\n",addr);
 	return (addr);
 }

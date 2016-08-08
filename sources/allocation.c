@@ -6,7 +6,7 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 18:52:41 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/03 17:56:39 by rorousse         ###   ########.fr       */
+/*   Updated: 2016/08/08 20:09:49 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ t_pr_alloc	*get_tiny()
 	if (init == 0)
 	{
 		zone.nb = det_size_zone(TINY);
-		zone.ptr = mmap(NULL, zone.nb * (TINY + 1), PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		zone.ptr = mmap(NULL, zone.nb * TINY, 
+		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		zone.type = TINY;
+		zone.data = mmap(NULL, zone.nb * sizeof(unsigned int),
+		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		init = 1;
 		i = 0;
-		while (i < zone.nb)
+		while (i < (zone.nb * sizeof(unsigned int)))
 		{
 			zone.ptr[i] = 0;
 			i++;
@@ -48,7 +51,7 @@ t_pr_alloc	*get_tiny()
 	return (&zone);
 }
 
-t_pr_alloc  * get_small()
+t_pr_alloc  *get_small()
 {
     static int  		init = 0;
     static t_pr_alloc	zone;
@@ -57,11 +60,14 @@ t_pr_alloc  * get_small()
     if (init == 0)
     {
 		zone.nb = det_size_zone(SMALL);
-		zone.ptr = mmap(NULL, zone.nb * (SMALL + 1), PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		zone.ptr = mmap(NULL, zone.nb * SMALL, 
+		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		zone.data = mmap(NULL, zone.nb *sizeof(unsigned int),
+		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1,0);
 		init = 1;
 		i = 0;
 		zone.type = SMALL;
-		while (i < zone.nb)
+		while (i < (zone.nb * sizeof(unsigned int)))
 		{
 			zone.ptr[i] = 0;
 			i++;
