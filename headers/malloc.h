@@ -19,16 +19,14 @@ struct s_pr_alloc
 };
 
 typedef struct s_pr_alloc t_pr_alloc;
-	
-struct s_memzone
+
+struct s_large_alloc
 {
-	void				*ptr;
-	size_t				size;
-	struct s_memzone	*next;
-	struct s_memzone	*prec;
+	char				*ptr;
+	unsigned int		nb;
 };
 
-typedef struct s_memzone t_memzone;
+typedef struct s_large_alloc s_large_alloc;
 
 /* Prototypes */
 
