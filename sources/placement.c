@@ -24,7 +24,6 @@ static int	check_place(t_pr_alloc zone)
 		nb = (unsigned int*)(zone.data + (i * sizeof(unsigned int)));
 		if (*nb == 0)
 		{
-			printf("%u\n",i);
 			return (i);
 		}
 		i++;
@@ -47,6 +46,5 @@ char	*find_place(t_pr_alloc *zone, size_t size)
 		nb = (unsigned int*)(zone->data + (place * sizeof(unsigned int)));
 		*nb = size;
 	}
-	printf("l'addresse est %p\n",addr);
 	return (addr);
 }

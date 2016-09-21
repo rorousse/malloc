@@ -16,17 +16,21 @@
 #include <sys/mman.h>
 #include "headers/malloc.h"
 
+void testalloc()
+{
+  char *lol;
+  char *mdr;
+
+  lol = ft_malloc(2);
+  mdr = ft_malloc(3);
+  ft_free(lol);
+  ft_free(mdr);
+  show_alloc_mem();
+}
+
 int main()
 {
-	char *lol;
-	char	*mdr;
-
-	lol = ft_malloc(2);
-	mdr = ft_malloc(3);
-	printf("le pointeur est %p et %p \n", lol, mdr);
-	show_alloc_mem();
-	ft_free(lol);
-	show_alloc_mem();
+ 	testalloc();
 	return (0);
 }
 

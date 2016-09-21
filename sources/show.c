@@ -24,7 +24,7 @@ static void	show_zone(t_pr_alloc zone)
         nb = (unsigned int*)(zone.data + (i * sizeof(unsigned int)));
 		if (*nb != 0)
         {
-            printf("%p - %p:\n %u\n", zone.ptr + (i * zone.type), zone.ptr + (i * zone.type) + *nb, *nb);
+            printf("%p - %p:\n%u\n", zone.ptr + (i * zone.type), zone.ptr + (i * zone.type) + *nb, *nb);
 		}
         i++;
     }

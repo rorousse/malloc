@@ -14,13 +14,13 @@
 
 static void	liberation(char *ptr, t_pr_alloc *zone)
 {
-	int		espace;
+	unsigned int		espace;
 	char	*data_cpy;
 	unsigned int *nb;
 
 	espace = 0;
-	if (zone->nb != 0)
-		espace = (ptr - zone->ptr) / zone->nb;
+	if (zone->type != 0)
+		espace = (ptr - zone->ptr) / zone->type;
 	data_cpy = zone->data + (espace * sizeof(unsigned int));
 	nb = (unsigned int*)data_cpy;
 	if (*nb == 0)
@@ -39,13 +39,10 @@ void	ft_free(void *ptr)
 	small = get_small();
 	if (ptr_cpy >= tiny->ptr && ptr_cpy <= (tiny->ptr + (tiny->nb * TINY)))
 	{
-		ft_putendl("tiny");
 		liberation(ptr_cpy, tiny);
 	}
 	else if (ptr_cpy >= small->ptr && ptr_cpy <= (small->ptr + (small->nb * SMALL)))
 	{
-		ft_putendl("small");
 		liberation(ptr_cpy, small);
 	}
-	printf("%p contre %p et %p\n", ptr_cpy, tiny->ptr, small->ptr);
 }
