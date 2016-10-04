@@ -34,15 +34,18 @@ void	ft_free(void *ptr)
 	t_pr_alloc	*small;
 	char		*ptr_cpy;
 	
-	ptr_cpy = (char*)ptr;
-	tiny = get_tiny();
-	small = get_small();
-	if (ptr_cpy >= tiny->ptr && ptr_cpy <= (tiny->ptr + (tiny->nb * TINY)))
+	if (ptr != NULL)
 	{
-		liberation(ptr_cpy, tiny);
-	}
-	else if (ptr_cpy >= small->ptr && ptr_cpy <= (small->ptr + (small->nb * SMALL)))
-	{
-		liberation(ptr_cpy, small);
+		ptr_cpy = (char*)ptr;
+		tiny = get_tiny();
+		small = get_small();
+		if (ptr_cpy >= tiny->ptr && ptr_cpy <= (tiny->ptr + (tiny->nb * TINY)))
+		{
+			liberation(ptr_cpy, tiny);
+		}
+		else if (ptr_cpy >= small->ptr && ptr_cpy <= (small->ptr + (small->nb * SMALL)))
+		{
+			liberation(ptr_cpy, small);
+		}
 	}
 }
