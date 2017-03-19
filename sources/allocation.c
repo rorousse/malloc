@@ -16,12 +16,12 @@
 
 static unsigned int		det_size_zone(unsigned int mode)
 {
-	unsigned int	page;
+	int	page;
 	unsigned int	count;
 
 	count = mode * 100;
 	page = getpagesize();
-	while ((count/mode < 100) || (count % mode != 0) || (count % page != 0))
+	while (count % page != 0)
 		   count = count + mode;
 	return (count/mode);
 }
@@ -74,4 +74,41 @@ t_pr_alloc  *get_small()
 		}
     }
     return (&zone);
+}
+
+t_large_alloc	*get_large()
+{
+	static int 	init = 0;
+	static t_large_alloc zone;
+	int		i;
+
+	if (init == 0)
+	{
+		init = 1;
+		i = 0;
+		zone.data = mmap(NULL, 100 * sizeof(void*), PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		while (i < 100)
+		{
+			(zone.data)[i] = NULL;
+			i++;
+		}
+	}
+	return (&zone);
+}
+
+void		*alloc_large(size_t size)
+{
+	t_large_alloc *zone;
+	int				i;
+	int page;
+
+	i = 0;
+	page = getpagesize();
+	zone = get_large();
+	while ((size % page) != 0)
+		size++;
+	while (i < 100 && (zone->data)[i] == NULL)
+		i++;
+	(zone->data)[i] = mmap(NULL, size, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	return ((zone->data)[i]);
 }

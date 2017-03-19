@@ -22,11 +22,10 @@ typedef struct s_pr_alloc t_pr_alloc;
 
 struct s_large_alloc
 {
-	char				*ptr;
-	unsigned int		nb;
+	void				**data;
 };
 
-typedef struct s_large_alloc s_large_alloc;
+typedef struct s_large_alloc t_large_alloc;
 
 /* Prototypes */
 
@@ -36,6 +35,9 @@ typedef struct s_large_alloc s_large_alloc;
 
 t_pr_alloc	*get_tiny(void);
 t_pr_alloc	*get_small(void);
+t_large_alloc	*get_large(void);
+void		*alloc_large(size_t size);
+
 
 /*
 ** FREE_C

@@ -33,7 +33,9 @@ void	*ft_malloc(size_t size)
 		zone = get_small();
 		addr = find_place(zone, size);
 	}
-//	if (addr == NULL)
-		// on alloue une grosse zone memoire
+	if (addr == NULL)
+	{
+		addr = alloc_large(size);
+	}
 	return ((void*)addr);
 }

@@ -6,7 +6,7 @@
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 19:19:36 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/08 22:17:45 by rorousse         ###   ########.fr       */
+/*   Updated: 2017/03/18 22:30:47 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,22 @@ void testalloc()
   char *lol;
   char *mdr;
 
-  lol = ft_malloc(2);
-  mdr = ft_malloc(3);
+  lol = ft_malloc(500);
+  mdr = ft_malloc(30);
+    show_alloc_mem();
   ft_free(lol);
   ft_free(mdr);
   ft_free(NULL);
-  show_alloc_mem();
-}
 
+}
 int main()
 {
+	size_t		i = 0;
+
+	while (i < 420)
+	{
+		i++;
+	}
  	testalloc();
 	return (0);
 }
