@@ -19,7 +19,9 @@ SRC = 	free.c			\
 		allocation.c	\
 		placement.c		\
 		show.c			\
-
+		field.c			\
+		zones.c			\
+		
 LIBS = libft/libft.a
 OBJNAME= $(SRC:.c=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJNAME))

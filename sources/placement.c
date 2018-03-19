@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-# include "malloc.h"
+#include "malloc.h"
 
 static int	check_place(t_pr_alloc zone)
 {
@@ -28,19 +27,19 @@ static int	check_place(t_pr_alloc zone)
 		}
 		i++;
 	}
-	ft_putendl("Error placement");
+	ft_putendl("Error placement\n");
 	return (-1);
 }
 
-char	*find_place(t_pr_alloc *zone, size_t size)
+char		*find_place(t_pr_alloc *zone, size_t size)
 {
-	unsigned int	*nb;	
-	int 			place;
+	unsigned int	*nb;
+	int				place;
 	char			*addr;
 
 	addr = NULL;
 	place = check_place(*zone);
-	if (place  != -1)
+	if (place != -1)
 	{
 		addr = zone->ptr + (place * zone->type);
 		nb = (unsigned int*)(zone->data + (place * sizeof(unsigned int)));

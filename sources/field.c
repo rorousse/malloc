@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   allocation.c                                       :+:      :+:    :+:   */
+/*   field.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rorousse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/02 18:52:41 by rorousse          #+#    #+#             */
-/*   Updated: 2016/08/08 20:09:49 by rorousse         ###   ########.fr       */
+/*   Created: 2018/03/19 16:30:12 by rorousse          #+#    #+#             */
+/*   Updated: 2018/03/19 16:30:17 by rorousse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
 #include "malloc.h"
 
-void		*alloc_large(size_t size)
+unsigned int		*create_field(int type, int ptr_size, int field_size)
 {
-	t_large_alloc	*zone;
-	int				i;
-	int				page;
+	unsigned int *field;
+	unsigned int size;
 
-	i = 0;
-	page = getpagesize();
-	zone = get_large();
-	while ((size % page) != 0)
-		size++;
-	while (i < 100 && (zone->data)[i] == NULL)
-		i++;
-	(zone->data)[i] = mmap(NULL, size,
+	size = 0;
+	if (type == DATA)
+		size = sizeof(unsigned int) * field_size + 2 * sizeof(void*);
+	else if (type == PTR)
+		size = ptr_size * field_size;
+	field = mmap(NULL, size,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	return ((zone->data)[i]);
+	return (field);
 }

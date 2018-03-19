@@ -15,8 +15,8 @@
 static void	liberation(char *ptr, t_pr_alloc *zone)
 {
 	unsigned int		espace;
-	char	*data_cpy;
-	unsigned int *nb;
+	char				*data_cpy;
+	unsigned int		*nb;
 
 	espace = 0;
 	if (zone->type != 0)
@@ -28,12 +28,12 @@ static void	liberation(char *ptr, t_pr_alloc *zone)
 	*nb = 0;
 }
 
-void	ft_free(void *ptr)
+void		ft_free(void *ptr)
 {
 	t_pr_alloc	*tiny;
 	t_pr_alloc	*small;
 	char		*ptr_cpy;
-	
+
 	if (ptr != NULL)
 	{
 		ptr_cpy = (char*)ptr;
@@ -43,7 +43,8 @@ void	ft_free(void *ptr)
 		{
 			liberation(ptr_cpy, tiny);
 		}
-		else if (ptr_cpy >= small->ptr && ptr_cpy <= (small->ptr + (small->nb * SMALL)))
+		else if (ptr_cpy >= small->ptr &&
+		ptr_cpy <= (small->ptr + (small->nb * SMALL)))
 		{
 			liberation(ptr_cpy, small);
 		}

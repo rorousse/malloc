@@ -19,25 +19,23 @@
 void testalloc()
 {
   char *lol;
-  char *mdr;
+  unsigned int i;
 
-  lol = ft_malloc(500);
-  mdr = ft_malloc(30);
-    show_alloc_mem();
-  ft_free(lol);
-  ft_free(mdr);
-  ft_free(NULL);
-
+  while (i < 113)
+  {
+    dprintf(2, "ESSAI NUMERO %u\n", i);
+    i++;
+    lol = ft_malloc(30);
+  }
+  show_alloc_mem();
 }
+
 int main()
 {
 	size_t		i = 0;
 
-	while (i < 420)
-	{
-		i++;
-	}
- 	testalloc();
+  printf("getpagesize() renvoie %d\n", getpagesize());
+//	testalloc();
 	return (0);
 }
 
