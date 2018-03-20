@@ -34,8 +34,7 @@ int main()
 {
 	size_t		i = 0;
 
-  printf("getpagesize() renvoie %d\n", getpagesize());
-//	testalloc();
+  printf("%lu et %lu\n", sizeof(unsigned int), sizeof(char*));
 	return (0);
 }
 

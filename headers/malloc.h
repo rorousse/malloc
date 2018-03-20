@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include <string.h>
 #include "../libft/libft.h"
 
 /***************************************
@@ -65,7 +66,6 @@ struct s_pr_alloc
 	char				*data;
 	unsigned int		field_size;
 	unsigned int		nb;
-	unsigned int 		count;
 	int					type;
 };
 
@@ -90,7 +90,7 @@ void			*alloc_large(size_t size);
 ** FIELD_C
 */
 
-unsigned int 	*create_field(int type, int ptr_size, int field_size);
+char 	*create_field(int type, int ptr_size, int field_size);
 
 /*
 ** FREE_C

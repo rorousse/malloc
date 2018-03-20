@@ -28,14 +28,11 @@ static void				init_zone(t_pr_alloc *zone, unsigned int mode)
 {
 	unsigned int i;
 
-	zone->count = 0;
+	i = 0;
 	zone->field_size = det_size_zone(mode);
 	zone->nb = zone->field_size;
-	zone->ptr = mmap(NULL, zone->nb * mode,
-	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	zone->data = mmap(NULL, zone->nb * sizeof(unsigned int) + sizeof(void*),
-	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	i = 0;
+	zone->ptr = create_field(PTR, mode, zone->field_size);
+	zone->data = create_field(DATA, mode, zone->field_size);
 	zone->type = mode;
 	while (i < (zone->nb * sizeof(unsigned int)))
 	{
