@@ -35,33 +35,37 @@ static void				init_zone(t_pr_alloc *zone, unsigned int mode)
 	zone->type = mode;
 }
 
-t_pr_alloc				*get_tiny(void)
+t_pr_alloc				*get_tiny(int mode)
 {
 	static int			init = 0;
 	static t_pr_alloc	zone;
 
 	if (init == 0)
 	{
+		if (mode == GET)
+			return (NULL);
 		init_zone(&zone, TINY);
 		init = 1;
 	}
 	return (&zone);
 }
 
-t_pr_alloc				*get_small(void)
+t_pr_alloc				*get_small(int mode)
 {
 	static int			init = 0;
 	static t_pr_alloc	zone;
 
 	if (init == 0)
 	{
+		if (mode == GET)
+			return (NULL);
 		init_zone(&zone, SMALL);
 		init = 1;
 	}
 	return (&zone);
 }
 
-t_large_alloc			*get_large(void)
+t_large_alloc			*get_large(int mode)
 {
 	static int				init = 0;
 	static t_large_alloc	zone;
@@ -69,13 +73,15 @@ t_large_alloc			*get_large(void)
 
 	if (init == 0)
 	{
+		if (mode == GET)
+			return (NULL);
 		init = 1;
 		i = 0;
 		zone.data = mmap(NULL, 100 * sizeof(void*),
 		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		while (i < 100)
 		{
-			(zone.data)[i] = NULL;
+			(zone.data)[i] = 0;
 			i++;
 		}
 	}

@@ -12,48 +12,51 @@
 
 #include "malloc.h"
 
-/*
-static void	liberation(char *ptr, t_pr_alloc *zone)
+static void	liberation(long unsigned int *data, unsigned int pos)
 {
-	unsigned int		espace;
-	char				*data_cpy;
 	unsigned int		*nb;
 
-	espace = 0;
-	if (zone->type != 0)
-		espace = (ptr - zone->ptr) / zone->type;
-	data_cpy = zone->data + (espace * sizeof(unsigned int));
-	nb = (unsigned int*)data_cpy;
+	nb = (unsigned int *)(data + 3 * sizeof(long unsigned int) + (pos * sizeof(unsigned int)));
 	if (*nb == 0)
 		ft_putendl("Warning : zone being freed was not allocated");
 	*nb = 0;
 }
 
+static int	search_in_zone(t_pr_alloc *zone, long unsigned int *addr)
+{
+	long unsigned int *data;
+	long unsigned int *ptr;
+
+	if (zone == NULL)
+		return (0);
+	data = zone->data;
+	while (data != 0)
+	{
+		ptr = (long unsigned int *)(*(data + 2 * sizeof(long unsigned int)));
+		if (addr > ptr && addr < ptr + zone->type * zone->field_size)
+		{
+			liberation(data, (addr - ptr) / zone->type);
+			return (1);
+		}
+		data = (long unsigned int *)(*(zone->data + sizeof(long unsigned int)));
+	}
+	return (0);
+}
+
+
 void		ft_free(void *ptr)
 {
 	t_pr_alloc	*tiny;
 	t_pr_alloc	*small;
-	char		*ptr_cpy;
+	long unsigned int *u_ptr;
 
+	tiny = get_tiny(GET);
+	small = get_small(GET);
+	u_ptr = (long unsigned int*)ptr;
 	if (ptr != NULL)
 	{
-		ptr_cpy = (char*)ptr;
-		tiny = get_tiny();
-		small = get_small();
-		if (ptr_cpy >= tiny->ptr && ptr_cpy <= (tiny->ptr + (tiny->nb * TINY)))
-		{
-			liberation(ptr_cpy, tiny);
-		}
-		else if (ptr_cpy >= small->ptr &&
-		ptr_cpy <= (small->ptr + (small->nb * SMALL)))
-		{
-			liberation(ptr_cpy, small);
-		}
+		if (search_in_zone(tiny, u_ptr) || search_in_zone(small, u_ptr))
+			return;
 	}
-}
-*/
-
-void ft_free(void *ptr)
-{
-	(void)ptr;
+	print_log("error : address was in a zone not pre-allocated");
 }

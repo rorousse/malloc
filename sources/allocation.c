@@ -20,7 +20,7 @@ void		*alloc_large(size_t size)
 
 	i = 0;
 	page = getpagesize();
-	zone = get_large();
+	zone = get_large(INIT);
 	while ((size % page) != 0)
 		size++;
 	while (i < 100 && (zone->data)[i] == NULL)

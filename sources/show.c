@@ -35,14 +35,16 @@ static void	show_field(long unsigned int *data, unsigned int nb_max, int type)
 	}
 }
 
-static void show_zone(t_pr_alloc zone)
+static void show_zone(t_pr_alloc *zone)
 {
 	long unsigned int *ptr;
 
-	ptr = zone.data;
+	if (zone == NULL)
+		return;
+	ptr = zone->data;
 	while (ptr != 0)
 	{
-		show_field(ptr, zone.nb, zone.type);
+		show_field(ptr, zone->nb, zone->type);
 		ptr = (long unsigned int *)(*(ptr + sizeof(long unsigned int)));
 	}
 }
@@ -64,12 +66,12 @@ void		show_alloc_mem(void)
 	t_pr_alloc		*tiny;
 	t_pr_alloc		*small;
 
-	tiny = get_tiny();
-	small = get_small();
+	tiny = get_tiny(GET);
+	small = get_small(GET);
 	print_log("zone TINY:\n");
-	show_zone(*tiny);
+	show_zone(tiny);
 	print_log("zone SMALL:\n");
-	show_zone(*small);
+	show_zone(small);
 }
 
 void		print_memory(unsigned int *start, unsigned int *end)

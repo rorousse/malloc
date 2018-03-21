@@ -45,6 +45,7 @@
 **************************************/
 
 enum {DATA, PTR};
+enum {GET, INIT};
 
 /**************************************
 ** STRUCTURES
@@ -120,8 +121,8 @@ void	print_memory(unsigned int *start, unsigned int *end);
 ** ZONES_C
 */
 
-t_pr_alloc		*get_tiny(void);
-t_pr_alloc		*get_small(void);
-t_large_alloc	*get_large(void);
+t_pr_alloc		*get_tiny(int mode);
+t_pr_alloc		*get_small(int mode);
+t_large_alloc	*get_large(int mode);
 
 #endif

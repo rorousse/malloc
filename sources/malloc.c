@@ -26,13 +26,13 @@ void	*ft_malloc(size_t size)
 	if (size <= TINY)
 	{
 		print_log("allocation de zone TINY\n");
-		zone = get_tiny();
+		zone = get_tiny(INIT);
 		addr = find_place(zone, size);
 	}
 	if (addr == NULL && size <= SMALL)
 	{
 		print_log("allocation de zone SMALL\n");
-		zone = get_small();
+		zone = get_small(INIT);
 		addr = find_place(zone, size);
 	}
 	if (addr == NULL)
