@@ -88,6 +88,7 @@ void			*alloc_large(size_t size);
 */
 
 char 	*create_field(int ptr_size, int field_size);
+char 	*destroy_data_field(char *data_field, int ptr_size, int field_size);
 
 /*
 ** FREE_C

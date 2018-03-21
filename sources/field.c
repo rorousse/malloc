@@ -33,3 +33,12 @@ char		*create_data_field(int ptr_size, int field_size)
 	*(data_field + 2 * sizeof(long unsigned int)) = (long unsigned int)ptr_field;
 	return (data_field);
 }
+
+char 	*destroy_data_field(char *data_field, int ptr_size, int field_size)
+{
+	char *ptr_field;
+
+	ptr_field = (long unsigned int *)(*(data_field + 2 * sizeof(long unsigned int)));
+	munmap(ptr_field, ptr_size * field_size);
+	munmap(data_field, sizeof(unsigned int * field_size + 3 * sizeof(long unsigned int)));
+}

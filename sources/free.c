@@ -12,6 +12,7 @@
 
 #include "malloc.h"
 
+/*
 static void	liberation(char *ptr, t_pr_alloc *zone)
 {
 	unsigned int		espace;
@@ -50,3 +51,4 @@ void		ft_free(void *ptr)
 		}
 	}
 }
+*/

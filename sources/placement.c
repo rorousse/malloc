@@ -17,23 +17,27 @@
 ** else, the function returns the place where the ptr should be
 */
 
-static unsigned int	check_place(t_pr_alloc *zone)
+static unsigned int	get_place(long unsigned int *data, unsigned int nb_max, unsigned int alloc_size)
 {
 	unsigned int	i;
 	unsigned int	*nb;
 
 	i = 0;
-	while (i < zone->nb)
+	data += 3 * sizeof(long unsigned int);
+	nb = (unsigned int*)data;
+	while (i < nb_max && *nb != 0)
 	{
-		nb = (unsigned int*)(zone->data + (i * sizeof(unsigned int)));
-		if (*nb == 0)
-		{
-			return (i);
-		}
+		data += sizeof(unsigned int);
+		nb = (unsigned int*)data;
 		i++;
 	}
-	ft_putendl("Error placement\n");
-	return (-1);
+	if (i == nb_max)
+	{
+		print_log("FATAL ERROR : get_place()\n");
+		exit(1);
+	}
+	*nb = alloc_size;
+	return (i);
 }
 
 static long unsigned int *get_data_field(t_pr_alloc *zone)
@@ -61,18 +65,16 @@ static long unsigned int *get_data_field(t_pr_alloc *zone)
 
 char		*find_place(t_pr_alloc *zone, size_t size)
 {
-	unsigned int		*nb;
+	long unsigned int	*nb;
 	unsigned int		place;
-	char				*data;
+	long unsigned int	*data;
 	char				*addr;
 
-	data = (char*)get_data_field(zone);
-	place = check_place(*zone);
-	if (place != -1)
-	{
-		addr = zone->ptr + (place * zone->type);
-		nb = (unsigned int*)(zone->data + (place + 3 * sizeof(long unsigned int)));
-		*nb = size;
-	}
+	data = get_data_field(zone);
+	place = get_place(data, zone->nb, size);
+	nb = data;
+	(*nb)++;
+	nb = (long unsigned int *)(*(data + 2 * sizeof(long unsigned int)));
+	addr = (char*)(nb + place * zone->type);
 	return (addr);
 }
