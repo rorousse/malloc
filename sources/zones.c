@@ -31,7 +31,7 @@ static void				init_zone(t_pr_alloc *zone, unsigned int mode)
 	i = 0;
 	zone->field_size = det_size_zone(mode);
 	zone->nb = zone->field_size;
-	zone->data = create_field(mode, zone->field_size);
+	zone->data = create_data_field(mode, zone->field_size);
 	zone->type = mode;
 }
 

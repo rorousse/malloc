@@ -17,9 +17,9 @@
 ** puis renvoie celui-ci.
 */
 
-char		*create_data_field(int ptr_size, int field_size)
+unsigned long int *create_data_field(int ptr_size, int field_size)
 {
-	char			*data_field;
+	unsigned long int			*data_field;
 	char			*ptr_field;
 	unsigned int	size;
 
@@ -34,11 +34,11 @@ char		*create_data_field(int ptr_size, int field_size)
 	return (data_field);
 }
 
-char 	*destroy_data_field(char *data_field, int ptr_size, int field_size)
+void		destroy_data_field(long unsigned int *data_field, int ptr_size, int field_size)
 {
-	char *ptr_field;
+	long unsigned int *ptr_field;
 
 	ptr_field = (long unsigned int *)(*(data_field + 2 * sizeof(long unsigned int)));
 	munmap(ptr_field, ptr_size * field_size);
-	munmap(data_field, sizeof(unsigned int * field_size + 3 * sizeof(long unsigned int)));
+	munmap(data_field, sizeof(unsigned int) * field_size + 3 * sizeof(long unsigned int));
 }

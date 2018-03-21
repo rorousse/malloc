@@ -45,7 +45,7 @@ static long unsigned int *get_data_field(t_pr_alloc *zone)
 	long unsigned int	*data;
 	long unsigned int	next_addr;
 	long unsigned int	nb;
-	char				*tmp;
+	long unsigned int	*tmp;
 
 	data = (long unsigned int*)zone->data;
 	nb = *data;
@@ -54,7 +54,7 @@ static long unsigned int *get_data_field(t_pr_alloc *zone)
 		next_addr = *(data + sizeof(long unsigned int));
 		if (next_addr == 0)
 		{
-			tmp = create_field(zone->type, zone->nb);
+			tmp = create_data_field(zone->type, zone->nb);
 			*(data + sizeof(long unsigned int)) = (long unsigned int)tmp;
 		}
 		data = (long unsigned int *)next_addr;

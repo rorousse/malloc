@@ -13,21 +13,37 @@
 #include "malloc.h"
 #include <stdio.h>
 
-static void	show_zone(t_pr_alloc zone)
+static void	show_field(long unsigned int *data, unsigned int nb_max, int type)
 {
 	unsigned int	i;
 	unsigned int	*nb;
+	char			*ptr;
 
 	i = 0;
-	while (i < zone.nb)
+	print_log("Dans ce field, il y a %lu pointeurs alloues\n", (long unsigned int)(*data));
+	nb = (unsigned int*)(data + 3 * sizeof(long unsigned int));
+	ptr = (char*)((long unsigned int)(data + 2 * sizeof(long unsigned int)));
+	while (i < nb_max)
 	{
-		nb = (unsigned int*)(zone.data + (i * sizeof(unsigned int)));
 		if (*nb != 0)
 		{
-			printf("%p - %p:\n%u\n", zone.ptr + (i * zone.type),
-			zone.ptr + (i * zone.type) + *nb, *nb);
+			printf("%p - %p:\n%u\n", ptr + (i * type),
+			ptr + (i * type) + *nb, *nb);
 		}
+		nb += sizeof(unsigned int);
 		i++;
+	}
+}
+
+static void show_zone(t_pr_alloc zone)
+{
+	long unsigned int *ptr;
+
+	ptr = zone.data;
+	while (ptr != 0)
+	{
+		show_field(ptr, zone.nb, zone.type);
+		ptr = (long unsigned int *)(*(ptr + sizeof(long unsigned int)));
 	}
 }
 

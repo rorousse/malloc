@@ -60,7 +60,7 @@ enum {DATA, PTR};
 
 struct s_pr_alloc
 {
-	char				*data;
+	long unsigned int	*data;
 	unsigned int		field_size;
 	unsigned int		nb;
 	int					type;
@@ -87,8 +87,8 @@ void			*alloc_large(size_t size);
 ** FIELD_C
 */
 
-char 	*create_field(int ptr_size, int field_size);
-char 	*destroy_data_field(char *data_field, int ptr_size, int field_size);
+unsigned long int	*create_data_field(int ptr_size, int field_size);
+void	destroy_data_field(long unsigned int *data_field, int ptr_size, int field_size);
 
 /*
 ** FREE_C
