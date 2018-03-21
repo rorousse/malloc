@@ -12,19 +12,24 @@
 
 #include "malloc.h"
 
-char		*create_field(int type, int ptr_size, int field_size)
+/*
+** Alloue la memoire destinee a un champ de type DATA ou PTR,
+** puis renvoie celui-ci.
+*/
+
+char		*create_data_field(int ptr_size, int field_size)
 {
-	char			*field;
+	char			*data_field;
+	char			*ptr_field;
 	unsigned int	size;
 
-	size = 0;
-	if (type == DATA)
-		size = sizeof(unsigned int) * field_size + 3 * sizeof(void*);
-	else if (type == PTR)
-		size = ptr_size * field_size;
-	field = mmap(NULL, size,
+	size = sizeof(unsigned int) * field_size + 3 * sizeof(void*);
+	data_field = mmap(NULL, size,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (type == DATA)
-		bzero(field, size);
-	return (field);
+	bzero(data_field, size);
+	size = ptr_size * field_size;
+	ptr_field = mmap(NULL, size,
+	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	*(data_field + 2 * sizeof(long unsigned int)) = (long unsigned int)ptr_field;
+	return (data_field);
 }

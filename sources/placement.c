@@ -36,30 +36,27 @@ static unsigned int	check_place(t_pr_alloc *zone)
 	return (-1);
 }
 
-static char *get_data_field(t_pr_alloc zone)
+static long unsigned int *get_data_field(t_pr_alloc *zone)
 {
-	unsigned int		i;
 	long unsigned int	*data;
-	long unsigned int	*ptr;
-	unsigned int		nb;
-	long unsigned int	tmp;
+	long unsigned int	next_addr;
+	long unsigned int	nb;
+	char				*tmp;
 
-	data = zone->data;
+	data = (long unsigned int*)zone->data;
 	nb = *data;
-	i = 0;
 	while (nb == zone->nb)
 	{
-		i++;
-		ptr = *(data + sizeof(long unsigned int));
-		if (ptr == 0)
+		next_addr = *(data + sizeof(long unsigned int));
+		if (next_addr == 0)
 		{
-			tmp = create_new_field(DATA, zone->type, zone->nb);
-			*(data + sizeof(long unsigned int)) = tmp;
-			tmp = create_new_field(PTR, zone->type, zone->nb);
-			*(data + (2 * sizeof(long unsigned int))) = tmp;
-			return (i);
+			tmp = create_field(zone->type, zone->nb);
+			*(data + sizeof(long unsigned int)) = (long unsigned int)tmp;
 		}
+		data = (long unsigned int *)next_addr;
+		nb = *data;
 	}
+	return (data);
 }
 
 char		*find_place(t_pr_alloc *zone, size_t size)
@@ -69,8 +66,7 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	char				*data;
 	char				*addr;
 
-	addr = zone->ptr;
-	data = get_data_field(zone);
+	data = (char*)get_data_field(zone);
 	place = check_place(*zone);
 	if (place != -1)
 	{
