@@ -21,20 +21,19 @@ void testalloc()
   char *lol;
   unsigned int i;
 
-  while (i < 113)
+  while (i < 500)
   {
     dprintf(2, "ESSAI NUMERO %u\n", i);
     i++;
-    lol = ft_malloc(30);
+    lol = ft_malloc(i+1);
   }
+  dprintf(2, "END OF ALLOCATION\n");
   show_alloc_mem();
 }
 
 int main()
 {
-	size_t		i = 0;
-
-  printf("%lu et %lu\n", sizeof(unsigned int), sizeof(char*));
+	testalloc();
 	return (0);
 }
 

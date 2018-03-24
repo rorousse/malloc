@@ -42,6 +42,7 @@ static void show_zone(t_pr_alloc *zone)
 	while (data != 0)
 	{
 		show_field(data, zone);
+		data = data->next;
 	}
 }
 
