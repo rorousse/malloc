@@ -50,10 +50,12 @@ void		ft_free(void *ptr)
 {
 	t_pr_alloc	*tiny;
 	t_pr_alloc	*small;
+	t_pr_alloc	*large;
 	char		*addr;
 
 	tiny = get_tiny(GET);
 	small = get_small(GET);
+	large = get_large(GET);
 	addr = (char*)ptr;
 	if (ptr != NULL)
 	{

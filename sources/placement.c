@@ -55,14 +55,18 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	long unsigned int	*large_addr;
 	int 				page;
 
-	data = get_data_field(zone);
-	place = get_place(data, zone->nb, size);
-	data->count++;
-	addr = data->alloc_zone + (place * zone->type);
+	if (zone->type == LARGE)
 	{
 		page = getpagesize();
 		while ((size % page) != 0)
 			size++;
+	}
+	data = get_data_field(zone);
+	place = get_place(data, zone->nb, size);
+	data->count++;
+	addr = data->alloc_zone + (place * zone->type);
+	if (zone->type == LARGE)
+	{
 		large_addr = (long unsigned int *)addr;
 		*large_addr = (long unsigned int)mmap(NULL, size,
 		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);

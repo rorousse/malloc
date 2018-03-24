@@ -35,7 +35,8 @@ void testalloc()
 int main()
 {
   char *lol;
-
+  
+  dprintf(2, "page size vaut %d\n", getpagesize()); 
   lol = ft_malloc(30000);
   //ft_free(lol);
   show_alloc_mem();
