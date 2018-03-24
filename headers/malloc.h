@@ -32,6 +32,7 @@
 
 /* Memory parameters */
 
+# define LARGE sizeof(char*)
 # define TINY 256
 # define SMALL 4096
 # define MIN_PTR_NB 100;
@@ -53,7 +54,6 @@ enum {GET, INIT};
 
 typedef struct s_data t_data;
 typedef struct s_pr_alloc t_pr_alloc;
-typedef struct s_large_alloc t_large_alloc;
 
 /*
 ** CONTENU D'UNE ZONE DATA
@@ -80,19 +80,7 @@ struct s_pr_alloc
 	t_data				*data;
 };
 
-
-struct s_large_alloc
-{
-	void				**data;
-};
-
 /* Prototypes */
-
-/*
-** ALLOCATION_C
-*/
-
-void			*alloc_large(size_t size);
 
 /*
 ** FIELD_C
@@ -133,6 +121,6 @@ void	print_memory(unsigned int *start, unsigned int *end);
 
 t_pr_alloc		*get_tiny(int mode);
 t_pr_alloc		*get_small(int mode);
-t_large_alloc	*get_large(int mode);
+t_pr_alloc	*get_large(int mode);
 
 #endif

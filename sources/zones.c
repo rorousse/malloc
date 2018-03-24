@@ -67,25 +67,17 @@ t_pr_alloc				*get_small(int mode)
 	return (&zone);
 }
 
-t_large_alloc			*get_large(int mode)
+t_pr_alloc			*get_large(int mode)
 {
 	static int				init = 0;
-	static t_large_alloc	zone;
-	int						i;
+	static t_pr_alloc	zone;
 
 	if (init == 0)
 	{
 		if (mode == GET)
 			return (NULL);
+		init_zone(&zone, LARGE);
 		init = 1;
-		i = 0;
-		zone.data = mmap(NULL, 100 * sizeof(void*),
-		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-		while (i < 100)
-		{
-			(zone.data)[i] = 0;
-			i++;
-		}
 	}
 	return (&zone);
 }

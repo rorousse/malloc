@@ -62,6 +62,7 @@ void		show_alloc_mem(void)
 {
 	t_pr_alloc		*tiny;
 	t_pr_alloc		*small;
+	t_pr_alloc		*large;
 
 	tiny = get_tiny(GET);
 	small = get_small(GET);
@@ -69,6 +70,7 @@ void		show_alloc_mem(void)
 	show_zone(tiny);
 	print_log("zone SMALL:\n");
 	show_zone(small);
+	print_log("zone LARGE:\n");
 }
 
 void		print_memory(unsigned int *start, unsigned int *end)

@@ -36,10 +36,10 @@ int main()
 {
   char *lol;
 
-  lol = ft_malloc(30);
-  ft_free(lol);
+  lol = ft_malloc(30000);
+  //ft_free(lol);
   show_alloc_mem();
-	testalloc();
+	//testalloc();
 	return (0);
 }
 

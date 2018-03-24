@@ -16,7 +16,6 @@ SRC_PATH=./sources/
 OBJ_PATH=./objs/
 SRC = 	free.c			\
 		malloc.c		\
-		allocation.c	\
 		placement.c		\
 		show.c			\
 		field.c			\
