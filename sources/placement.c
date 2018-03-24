@@ -17,26 +17,19 @@
 ** else, the function returns the place where the ptr should be
 */
 
-static unsigned int	get_place(long unsigned int *data, unsigned int nb_max, unsigned int alloc_size)
+static unsigned int	get_place(t_data *data, unsigned int nb_max, unsigned int alloc_size)
 {
 	unsigned int	i;
-	unsigned int	*nb;
 
 	i = 0;
-	data += 3 * sizeof(long unsigned int);
-	nb = (unsigned int*)data;
-	while (i < nb_max && *nb != 0)
-	{
-		data += sizeof(unsigned int);
-		nb = (unsigned int*)data;
+	while (i < nb_max && data->size_tab[i] != 0)
 		i++;
-	}
 	if (i == nb_max)
 	{
 		print_log("FATAL ERROR : get_place()\n");
 		exit(1);
 	}
-	*nb = alloc_size;
+	data->size_tab[i] = alloc_size;
 	return (i);
 }
 
@@ -63,7 +56,6 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	data = get_data_field(zone);
 	place = get_place(data, zone->nb, size);
 	data->count++;
-	nb = (long unsigned int *)(*(data + 2 * sizeof(long unsigned int)));
-	addr = (char*)(nb + place * zone->type);
+	addr = data->alloc_zone + (place * zone->type);
 	return (addr);
 }
