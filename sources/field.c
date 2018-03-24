@@ -17,28 +17,21 @@
 ** puis renvoie celui-ci.
 */
 
-unsigned long int *create_data_field(int ptr_size, int field_size)
+t_data *create_data_field(t_pr_alloc *zone)
 {
-	unsigned long int			*data_field;
-	char			*ptr_field;
-	unsigned int	size;
+	t_data *data;
 
-	size = sizeof(unsigned int) * field_size + 3 * sizeof(void*);
-	data_field = mmap(NULL, size,
+	data = mmap(NULL, zone->size_data,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	bzero(data_field, size);
-	size = ptr_size * field_size;
-	ptr_field = mmap(NULL, size,
+	bzero(data, zone->size_data);
+	data->size_tab = (unsigned int *)(&(data->size_tab) + sizeof(void*));
+	data->alloc_zone = mmap(NULL, zone->type * zone->nb,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	*(data_field + 2 * sizeof(long unsigned int)) = (long unsigned int)ptr_field;
-	return (data_field);
+	return (data);
 }
 
-void		destroy_data_field(long unsigned int *data_field, int ptr_size, int field_size)
+void		destroy_data_field(t_data *data, t_pr_alloc zone)
 {
-	long unsigned int *ptr_field;
-
-	ptr_field = (long unsigned int *)(*(data_field + 2 * sizeof(long unsigned int)));
-	munmap(ptr_field, ptr_size * field_size);
-	munmap(data_field, sizeof(unsigned int) * field_size + 3 * sizeof(long unsigned int));
+	munmap(data->alloc_zone, zone.type * zone.nb);
+	munmap(data, zone.size_data);
 }

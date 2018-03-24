@@ -13,39 +13,35 @@
 #include "malloc.h"
 #include <stdio.h>
 
-static void	show_field(long unsigned int *data, unsigned int nb_max, int type)
+static void	show_field(t_data *data, t_pr_alloc *zone)
 {
 	unsigned int	i;
-	unsigned int	*nb;
 	char			*ptr;
 
 	i = 0;
-	print_log("Dans ce field, il y a %lu pointeurs alloues\n", (long unsigned int)(*data));
-	nb = (unsigned int*)(data + 3 * sizeof(long unsigned int));
-	ptr = (char*)((long unsigned int)(data + 2 * sizeof(long unsigned int)));
-	while (i < nb_max)
+	print_log("Dans ce field, il y a %lu pointeurs alloues\n", data->count);
+	ptr = data->alloc_zone;
+	while (i < zone->nb)
 	{
-		if (*nb != 0)
+		if (data->size_tab[i] != 0)
 		{
-			printf("%p - %p:\n%u\n", ptr + (i * type),
-			ptr + (i * type) + *nb, *nb);
+			printf("%p - %p:\n%u\n", ptr + (i * zone->type),
+			ptr + (i * zone->type) + data->size_tab[i], data->size_tab[i]);
 		}
-		nb += sizeof(unsigned int);
 		i++;
 	}
 }
 
 static void show_zone(t_pr_alloc *zone)
 {
-	long unsigned int *ptr;
+	t_data *data;
 
 	if (zone == NULL)
 		return;
-	ptr = zone->data;
-	while (ptr != 0)
+	data = zone->data;
+	while (data != 0)
 	{
-		show_field(ptr, zone->nb, zone->type);
-		ptr = (long unsigned int *)(*(ptr + sizeof(long unsigned int)));
+		show_field(data, zone);
 	}
 }
 

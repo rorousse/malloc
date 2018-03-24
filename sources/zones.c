@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-static unsigned int		det_size_zone(unsigned int mode)
+static unsigned int		det_nb_alloc(unsigned int mode)
 {
 	int				page;
 	unsigned int	count;
@@ -26,13 +26,15 @@ static unsigned int		det_size_zone(unsigned int mode)
 
 static void				init_zone(t_pr_alloc *zone, unsigned int mode)
 {
-	unsigned int i;
+	int page;
 
-	i = 0;
-	zone->field_size = det_size_zone(mode);
-	zone->nb = zone->field_size;
-	zone->data = create_data_field(mode, zone->field_size);
+	page = getpagesize();
+	zone->nb = det_nb_alloc(mode);
+	zone->size_data = sizeof(t_data) + sizeof(unsigned int) * zone->nb;
+	while (zone->size_data % page != 0)
+		zone->size_data++;
 	zone->type = mode;
+	zone->data = create_data_field(zone);
 }
 
 t_pr_alloc				*get_tiny(int mode)

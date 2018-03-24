@@ -51,6 +51,10 @@ enum {GET, INIT};
 ** STRUCTURES
 **************************************/
 
+typedef struct s_data t_data;
+typedef struct s_pr_alloc t_pr_alloc;
+typedef struct s_large_alloc t_large_alloc;
+
 /*
 ** CONTENU D'UNE ZONE DATA
 ** premier long unsigned int : nombre total de places occupées dans la zone
@@ -59,22 +63,28 @@ enum {GET, INIT};
 ** unsigned ints suivants : place occupée par chaque ptr
 */
 
-struct s_pr_alloc
+struct s_data
 {
-	long unsigned int	*data;
-	unsigned int		field_size;
-	unsigned int		nb;
-	int					type;
+	long unsigned int	count;
+	t_data 				*next;
+	char				*alloc_zone;
+	unsigned int 		*size_tab;
 };
 
-typedef struct s_pr_alloc t_pr_alloc;
+
+struct s_pr_alloc
+{
+	int 				type;
+	unsigned int 		nb;
+	unsigned int		size_data;
+	t_data				*data;
+};
+
 
 struct s_large_alloc
 {
 	void				**data;
 };
-
-typedef struct s_large_alloc t_large_alloc;
 
 /* Prototypes */
 
@@ -88,8 +98,8 @@ void			*alloc_large(size_t size);
 ** FIELD_C
 */
 
-unsigned long int	*create_data_field(int ptr_size, int field_size);
-void	destroy_data_field(long unsigned int *data_field, int ptr_size, int field_size);
+t_data	*create_data_field(t_pr_alloc *zone);
+void	destroy_data_field(t_data *data, t_pr_alloc zone);
 
 /*
 ** FREE_C
