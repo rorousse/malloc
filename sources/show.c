@@ -17,6 +17,7 @@ static void	show_field(t_data *data, t_pr_alloc *zone)
 {
 	unsigned int	i;
 	char			*ptr;
+	long unsigned int *ptr_large;
 
 	i = 0;
 	print_log("Dans ce field, il y a %lu pointeurs alloues\n", data->count);
@@ -25,8 +26,16 @@ static void	show_field(t_data *data, t_pr_alloc *zone)
 	{
 		if (data->size_tab[i] != 0)
 		{
-			printf("%p - %p:\n%u\n", ptr + (i * zone->type),
-			ptr + (i * zone->type) + data->size_tab[i], data->size_tab[i]);
+			if (zone->type != LARGE)
+			{
+				dprintf(2, "%p - %p:\n%u\n", ptr + (i * zone->type),
+				ptr + (i * zone->type) + data->size_tab[i], data->size_tab[i]);
+			}
+			else
+			{
+				ptr_large = (unsigned long int *)(ptr + (i * zone->type));
+				dprintf(2, "%lx - %lx:\n%u\n", *ptr_large, *ptr_large + data->size_tab[i], data->size_tab[i]);
+			}
 		}
 		i++;
 	}
@@ -66,11 +75,13 @@ void		show_alloc_mem(void)
 
 	tiny = get_tiny(GET);
 	small = get_small(GET);
+	large = get_large(GET);
 	print_log("zone TINY:\n");
 	show_zone(tiny);
 	print_log("zone SMALL:\n");
 	show_zone(small);
 	print_log("zone LARGE:\n");
+	show_zone(large);
 }
 
 void		print_memory(unsigned int *start, unsigned int *end)
