@@ -15,8 +15,14 @@
 static void	liberation(t_data *data, unsigned int pos)
 {
 	if (data->size_tab[pos] == 0)
+	{
 		ft_putendl("Warning : zone being freed was not allocated");
-	data->size_tab[pos] = 0;
+	}
+	else
+	{
+		data->size_tab[pos] = 0;
+		(data->count)--;
+	}
 }
 
 static int	search_in_zone(t_pr_alloc *zone, char *addr)
@@ -28,7 +34,8 @@ static int	search_in_zone(t_pr_alloc *zone, char *addr)
 	data = zone->data;
 	while (data != 0)
 	{
-		if (addr > data->alloc_zone && addr < data->alloc_zone + zone->type * zone->nb)
+		dprintf(2, "recherche de %p dans %p - %p\n", addr, data->alloc_zone, data->alloc_zone + zone->type * zone->nb);
+		if (addr >= data->alloc_zone && addr < data->alloc_zone + zone->type * zone->nb)
 		{
 			liberation(data, (addr - data->alloc_zone) / zone->type);
 			return (1);

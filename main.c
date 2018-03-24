@@ -26,6 +26,7 @@ void testalloc()
     dprintf(2, "ESSAI NUMERO %u\n", i);
     i++;
     lol = ft_malloc(i+1);
+    ft_free(lol);
   }
   dprintf(2, "END OF ALLOCATION\n");
   show_alloc_mem();
@@ -33,6 +34,11 @@ void testalloc()
 
 int main()
 {
+  char *lol;
+
+  lol = ft_malloc(30);
+  ft_free(lol);
+  show_alloc_mem();
 	testalloc();
 	return (0);
 }
