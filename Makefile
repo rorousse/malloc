@@ -29,8 +29,7 @@ FLAGS = -Wall -Wextra -O0 -g -Wmissing-prototypes -Werror
 all: create_obj $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	libtool -static -o $(NAME) $(NAME) $(LIBS)
+	libtool -static -o $(NAME) $(OBJ) $(LIBS)
 
 $(OBJ_PATH)%.o:	$(SRC_PATH)%.c
 	gcc $(FLAGS) -I headers/ -I libft/ -c $< -o $@
