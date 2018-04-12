@@ -30,6 +30,7 @@ static unsigned int	get_place(t_data *data, unsigned int nb_max, unsigned int al
 		exit(1);
 	}
 	data->size_tab[i] = alloc_size;
+	print_log("size %u stored\n", alloc_size);
 	return (i);
 }
 
@@ -72,5 +73,6 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		addr = (char*)(*large_addr);
 	}
+	print_log("L'allocation sera de size %u\n", size);
 	return (addr);
 }

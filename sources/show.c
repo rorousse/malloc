@@ -84,15 +84,19 @@ void		show_alloc_mem(void)
 	show_zone(large);
 }
 
-void		print_memory(unsigned int *start, unsigned int *end)
+void		print_memory(long unsigned int *start, unsigned int size)
 {
 	unsigned int i;
 
 	i = 0;
-	while (start + i != end)
+	print_log("START :\n");
+	while (i < size)
 	{
 		print_log("%x  ", *start);
-		if ((i % 7) == 0)
+		if (((i+1) % 8) == 0)
 			print_log("\n");
+		start += sizeof(long unsigned int);
+		i++;
 	}
+	print_log("%u bytes readed\n", i);
 }

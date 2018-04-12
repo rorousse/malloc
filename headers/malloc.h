@@ -113,7 +113,7 @@ char	*find_place(t_pr_alloc *zone, size_t size);
 
 void	print_log(char *str, ...);
 void	show_alloc_mem(void);
-void	print_memory(unsigned int *start, unsigned int *end);
+void	print_memory(long unsigned int *start, unsigned int size);
 
 /*
 ** ZONES_C
