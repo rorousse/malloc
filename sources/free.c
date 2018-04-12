@@ -30,16 +30,10 @@ static int	search_in_large(char *addr, char *alloc_zone, t_data *data, unsigned 
 	unsigned int		i;
 	
 	i = 0;
-	print_log("Searching %p\n", addr);
-
-	print_memory((long unsigned int*)alloc_zone, 10);
 	while (i < nb)
 	{
-		dprintf(2, "iteration %u, checking %lx\n", i, (long unsigned int)*alloc_zone);
 		if (memcmp(alloc_zone, &addr, sizeof(long unsigned int)) == 0)
 		{
-			dprintf(2, "%p found \n", addr);
-			dprintf(2, "GOTCHA, pour %u la size est de %u\n", i, data->size_tab[i]);
 			munmap((char*)addr, data->size_tab[i]);
 			bzero(alloc_zone, sizeof(long unsigned int));
 			data->size_tab[i] = 0;

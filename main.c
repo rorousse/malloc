@@ -153,7 +153,7 @@ void testalloc()
 
 int main()
 {
-  test_one_large();
+  test_multiple_large();
 	return (0);
 }
 
