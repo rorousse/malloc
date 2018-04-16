@@ -12,90 +12,36 @@
 
 #include "malloc.h"
 
-static void	liberation(t_data *data, unsigned int pos)
+static void	liberation(t_info_ptr ptr)
 {
-	if (data->size_tab[pos] == 0)
+	if (ptr.data->size_tab[ptr.pos] == 0)
 	{
 		ft_putendl("Warning : zone being freed was not allocated\n");
 	}
 	else
 	{
-		data->size_tab[pos] = 0;
-		(data->count)--;
-	}
-}
-
-static int	search_in_large(char *addr, char *alloc_zone, t_data *data, unsigned int nb)
-{
-	unsigned int		i;
-	
-	i = 0;
-	while (i < nb)
-	{
-		if (memcmp(alloc_zone, &addr, sizeof(long unsigned int)) == 0)
+		if (ptr.type == LARGE)
 		{
-			munmap((char*)addr, data->size_tab[i]);
-			bzero(alloc_zone, sizeof(long unsigned int));
-			data->size_tab[i] = 0;
-			(data->count)--;
-			return (1);
+			munmap(ptr.addr, ptr.data->size_tab[ptr.pos]);
+			bzero(ptr.data->alloc_zone + ptr.pos *sizeof(long unsigned int), sizeof(long unsigned int));
 		}
-		alloc_zone += sizeof(long unsigned int);
-		i++;
+		ptr.data->size_tab[ptr.pos] = 0;
+		(ptr.data->count)--;
 	}
-	return (0);
+
 }
-
-static int	search_in_zone(t_pr_alloc *zone, char *addr)
-{
-	t_data *data;
-
-	if (zone == NULL)
-	{
-		return (0);
-	}
-	data = zone->data;
-	while (data != 0)
-	{
-		if (zone->type != LARGE)
-		{
-			//dprintf(2, "recherche de %p dans %p - %p\n", addr, data->alloc_zone, data->alloc_zone + zone->type * zone->nb);
-			if (addr >= data->alloc_zone && addr < data->alloc_zone + zone->type * zone->nb)
-			{
-				liberation(data, (addr - data->alloc_zone) / zone->type);
-				return (1);
-			}
-		}
-		else
-		{
-				if (search_in_large(addr, data->alloc_zone, data, zone->nb))
-					return (1);
-		}
-		data = data->next;
-	}
-	return (0);
-}
-
 
 void		ft_free(void *ptr)
 {
-	t_pr_alloc	*tiny;
-	t_pr_alloc	*small;
-	t_pr_alloc	*large;
-	char		*addr;
+	t_info_ptr	mllc_ptr;
 
-	tiny = get_tiny(GET);
-	small = get_small(GET);
-	large = get_large(GET);
-	addr = (char*)ptr;
-	if (ptr != NULL)
+	mllc_ptr = search_in_all_zones(ptr);
+	if (mllc_ptr.addr != NULL)
 	{
-		if (search_in_zone(tiny, addr) || search_in_zone(small, addr) || search_in_zone(large, addr))
-			return;
+		liberation(mllc_ptr);
 	}
 	else
 	{
 		dprintf(2, "ERROR : NULL pointer\n");
 	}
-	print_log("error : address was in a zone not pre-allocated\n");
 }

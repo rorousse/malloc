@@ -21,11 +21,9 @@ void test_multiple_large()
   char *ptr[100];
   int i = 0;
 
-  dprintf(2, "doing 100 alocations of a size of %u\n", SMALL + 1);
   while (i < 100)
   {
     ptr[i] = ft_malloc(SMALL + 1);
-    dprintf(2, "ALLOCATION DONE, THE POINTER IS %p\n", ptr[i]);
     i++;
   }
   i = 0;
@@ -34,6 +32,7 @@ void test_multiple_large()
     ft_free(ptr[i]);
     i++;
   }
+  show_alloc_mem();
 }
 
 void  test_one_tiny()

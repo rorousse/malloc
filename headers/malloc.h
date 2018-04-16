@@ -33,6 +33,7 @@
 /* Memory parameters */
 
 # define LARGE sizeof(char*)
+# define NONE 0
 # define TINY 256
 # define SMALL 4096
 # define MIN_PTR_NB 100;
@@ -54,6 +55,7 @@ enum {GET, INIT};
 
 typedef struct s_data t_data;
 typedef struct s_pr_alloc t_pr_alloc;
+typedef struct s_info_ptr t_info_ptr;
 
 /*
 ** CONTENU D'UNE ZONE DATA
@@ -78,6 +80,14 @@ struct s_pr_alloc
 	unsigned int 		nb;
 	unsigned int		size_data;
 	t_data				*data;
+};
+
+struct s_info_ptr
+{
+	char			*addr;
+	int				type;
+	t_data			*data;
+	unsigned int	pos;
 };
 
 /* Prototypes */
@@ -106,6 +116,19 @@ void	*ft_malloc(size_t size);
 */
 
 char	*find_place(t_pr_alloc *zone, size_t size);
+
+/*
+** REALLOC_C
+*/
+
+void *ft_realloc(void *ptr, size_t size);
+
+/*
+** SEARCH_C
+*/
+
+t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr);
+t_info_ptr search_in_all_zones(void *ptr);
 
 /*
 ** SHOW_C
