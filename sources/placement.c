@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "malloc_utils.h"
 
 /*
 ** if the functions return zone->nb, it means that no place was found in the field, so we must go to next field / create a new field
@@ -30,7 +30,6 @@ static unsigned int	get_place(t_data *data, unsigned int nb_max, unsigned int al
 		exit(1);
 	}
 	data->size_tab[i] = alloc_size;
-	print_log("size %u stored\n", alloc_size);
 	return (i);
 }
 
@@ -42,7 +41,7 @@ static t_data *get_data_field(t_pr_alloc *zone)
 	while (data->count == zone->nb)
 	{
 		if (data->next == 0)
-			data->next = create_data_field(zone);
+			data->next = create_data_field(zone, data);
 		data = data->next;
 	}
 	return (data);
@@ -56,7 +55,7 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	long unsigned int	*large_addr;
 	int 				page;
 
-	if (zone->type == LARGE)
+	if (zone->size_ptr == LARGE_SIZE)
 	{
 		page = getpagesize();
 		while ((size % page) != 0)
@@ -65,14 +64,15 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	data = get_data_field(zone);
 	place = get_place(data, zone->nb, size);
 	data->count++;
-	addr = data->alloc_zone + (place * zone->type);
-	if (zone->type == LARGE)
+	if (zone->size_ptr != LARGE_SIZE)
+		addr = data->alloc_zone + (place * zone->size_ptr);
+	else
 	{
+		addr = data->alloc_zone + (place * sizeof(void*));
 		large_addr = (long unsigned int *)addr;
 		*large_addr = (long unsigned int)mmap(NULL, size,
 		PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		addr = (char*)(*large_addr);
 	}
-	print_log("L'allocation sera de size %u\n", size);
 	return (addr);
 }

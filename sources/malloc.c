@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/malloc.h"
-#include "../libft/libft.h"
-#include <stdio.h>
+#include "malloc_utils.h"
 
 void	*ft_malloc(size_t size)
 {
@@ -23,21 +21,7 @@ void	*ft_malloc(size_t size)
 	addr = NULL;
 	if (size <= 0)
 		return (NULL);
-	if (size <= TINY)
-	{
-		print_log("allocation de zone TINY\n");
-		zone = get_tiny(INIT);
-	}
-	else if (size <= SMALL)
-	{
-		print_log("allocation de zone SMALL\n");
-		zone = get_small(INIT);
-	}
-	else
-	{
-		zone = get_large(INIT);
-		print_log("allocation de zone LARGE\n");
-	}
+	zone = get_zone(INIT, size);
 	addr = find_place(zone, size);
 	return ((void*)addr);
 }

@@ -10,74 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "malloc_utils.h"
 
-static unsigned int		det_nb_alloc(unsigned int mode)
+static unsigned int		det_nb_alloc(size_t size)
 {
 	int				page;
 	unsigned int	count;
 
-	count = mode * MIN_PTR_NB;
+	count = size * MIN_PTR_NB;
 	page = getpagesize();
 	while (count % page != 0)
-		count = count + mode;
-	return (count / mode);
+		count = count + size;
+	return (count / size);
 }
 
-static void				init_zone(t_pr_alloc *zone, unsigned int mode)
+static void				init_zone(t_pr_alloc *zone, size_t size)
 {
 	int page;
 
 	page = getpagesize();
-	zone->nb = det_nb_alloc(mode);
-	zone->size_data = sizeof(t_data) + sizeof(unsigned int) * zone->nb;
+	zone->nb = det_nb_alloc(size);
+	zone->size_data = sizeof(t_data) + sizeof(size_t) * zone->nb;
 	while (zone->size_data % page != 0)
 		zone->size_data++;
-	zone->type = mode;
-	zone->data = create_data_field(zone);
+	zone->size_ptr = size;
+	zone->data = create_data_field(zone, NULL);
 }
 
-t_pr_alloc				*get_tiny(int mode)
+t_pr_alloc				*get_zone(int mode, size_t size)
 {
-	static int			init = 0;
-	static t_pr_alloc	zone;
+	static t_mllc_zones mllc_zones;
+	int					i;
 
-	if (init == 0)
+	i = 0;
+	if (mode == INDEX)
+		return (&(mllc_zones.zones[size]));
+	while (i < SIZE_RANGE)
 	{
-		if (mode == GET)
-			return (NULL);
-		init_zone(&zone, TINY);
-		init = 1;
+		if (size < size_range[i])
+		{
+			if (mode == INIT)
+			{
+				init_zone(&(mllc_zones.zones[i]), size_range[i]);
+			}
+			return (&(mllc_zones.zones[i]));
+		}
+		i++;
 	}
-	return (&zone);
+	return (NULL);
 }
 
-t_pr_alloc				*get_small(int mode)
-{
-	static int			init = 0;
-	static t_pr_alloc	zone;
-
-	if (init == 0)
-	{
-		if (mode == GET)
-			return (NULL);
-		init_zone(&zone, SMALL);
-		init = 1;
-	}
-	return (&zone);
-}
-
-t_pr_alloc			*get_large(int mode)
-{
-	static int				init = 0;
-	static t_pr_alloc	zone;
-
-	if (init == 0)
-	{
-		if (mode == GET)
-			return (NULL);
-		init_zone(&zone, LARGE);
-		init = 1;
-	}
-	return (&zone);
-}

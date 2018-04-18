@@ -27,11 +27,13 @@ void test_multiple_large()
     i++;
   }
   i = 0;
+  /*
   while (i < 100)
   {
     ft_free(ptr[i]);
     i++;
   }
+  */
   show_alloc_mem();
 }
 

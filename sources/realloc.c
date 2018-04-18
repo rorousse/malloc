@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "malloc_utils.h"
 
 void *ft_realloc(void *ptr, size_t size)
 {
@@ -19,8 +19,7 @@ void *ft_realloc(void *ptr, size_t size)
 	size_t	min_size;
 
 	mllc_ptr = search_in_all_zones(ptr);
-	if ((mllc_ptr.type == TINY && size < TINY) || 
-	(mllc_ptr.type == SMALL && size > TINY && size < SMALL))
+	if (size < mllc_ptr.size_ptr && mllc_ptr.size_ptr != LARGE)  
 	{
 		mllc_ptr.data->size_tab[mllc_ptr.pos] = size;
 	}
@@ -33,9 +32,5 @@ void *ft_realloc(void *ptr, size_t size)
 		ptr = new_ptr;
 	}
 	return (ptr);
-	// si le ptr est dans une zone de meme type que sa zone actuelle, qui est TINY ou SMALL : on augmente juste la size, fin
-	// SINON
-	// on alloue un nouveau ptr;
-	// on cpie le ptr actuelle dans le nouveau ptr ( delimiteur de copie ; size la plus basse )
-	// on libere l'ancien ptr
+
 }

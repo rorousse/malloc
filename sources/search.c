@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "malloc_utils.h"
 
 static void	search_in_large(char *addr, t_info_ptr *mllc_ptr, unsigned int nb)
 {
@@ -23,7 +23,7 @@ static void	search_in_large(char *addr, t_info_ptr *mllc_ptr, unsigned int nb)
 	{
 		if (memcmp(alloc_zone, &addr, sizeof(long unsigned int)) == 0)
 		{
-			mllc_ptr->type = LARGE;
+			mllc_ptr->size_ptr = LARGE_SIZE;
 			mllc_ptr->addr = addr;
 			mllc_ptr->pos = i;
 			return;
@@ -37,7 +37,7 @@ t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr)
 {
 	t_info_ptr	info_ptr;
 
-	info_ptr.type = NONE;
+	info_ptr.size_ptr = 0;
 	info_ptr.addr = NULL;
 	if (zone == NULL)
 	{
@@ -46,13 +46,13 @@ t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr)
 	info_ptr.data = zone->data;
 	while (info_ptr.data != NULL)
 	{
-		if (zone->type != LARGE)
+		if (zone->size_ptr != LARGE_SIZE)
 		{
-			if (addr >= info_ptr.data->alloc_zone && addr < info_ptr.data->alloc_zone + zone->type * zone->nb)
+			if (addr >= info_ptr.data->alloc_zone && addr < info_ptr.data->alloc_zone + zone->size_ptr * zone->nb)
 			{
 				info_ptr.addr = addr;
-				info_ptr.pos = (addr - info_ptr.data->alloc_zone) / zone->type;
-				info_ptr.type = zone->type;
+				info_ptr.pos = (addr - info_ptr.data->alloc_zone) / zone->size_ptr;
+				info_ptr.size_ptr = zone->size_ptr;
 				return (info_ptr);
 			}
 		}
@@ -69,12 +69,22 @@ t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr)
 
 t_info_ptr search_in_all_zones(void *ptr)
 {
+	unsigned int i;
 	t_info_ptr	mllc_ptr;
 
-	mllc_ptr.type = NONE;
+
+	mllc_ptr.size_ptr = 0;
 	mllc_ptr.data = NULL;
 	mllc_ptr.addr = NULL;
 	mllc_ptr.pos = 0;
+	i = 0;
+	while (i < SIZE_RANGE && mllc_ptr.size_ptr == 0)
+	{
+		mllc_ptr = search_in_zone(get_zone(INDEX, i), ptr);
+		i++;
+	}
+	/*
+
 	if (ptr != NULL)
 	{
 		mllc_ptr = search_in_zone(get_tiny(GET), ptr);
@@ -87,5 +97,6 @@ t_info_ptr search_in_all_zones(void *ptr)
 			}
 		}
 	}
+	*/
 	return (mllc_ptr);
 }

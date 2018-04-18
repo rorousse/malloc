@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
-#include <stdio.h>
-
+#include "malloc_utils.h"
+/*
 static void	show_field(t_data *data, t_pr_alloc *zone)
 {
 	unsigned int	i;
@@ -20,25 +19,25 @@ static void	show_field(t_data *data, t_pr_alloc *zone)
 	long unsigned int *ptr_large;
 
 	i = 0;
-	print_log("Dans ce field, il y a %lu pointeurs alloues\n", data->count);
 	ptr = data->alloc_zone;
 	while (i < zone->nb)
 	{
 		if (data->size_tab[i] != 0)
 		{
-			if (zone->type != LARGE)
+			if (zone->size_ptr != LARGE_SIZE)
 			{
-				dprintf(2, "%p - %p:\n%u\n", ptr + (i * zone->type),
-				ptr + (i * zone->type) + data->size_tab[i], data->size_tab[i]);
+				dprintf(2, "%p - %p:\n%u\n", ptr + (i * zone->size_ptr),
+				ptr + (i * zone->size_ptr) + data->size_tab[i], data->size_tab[i]);
 			}
 			else
 			{
-				ptr_large = (unsigned long int *)(ptr + (i * zone->type));
+				ptr_large = (unsigned long int *)(ptr + (i * sizeof(void*)));
 				dprintf(2, "%lx - %lx:\n%u\n", *ptr_large, *ptr_large + data->size_tab[i], data->size_tab[i]);
 			}
 		}
 		i++;
 	}
+	print_log("Dans ce field, il y a %lu pointeurs alloues\n", data->count);
 }
 
 static void show_zone(t_pr_alloc *zone)
@@ -54,7 +53,7 @@ static void show_zone(t_pr_alloc *zone)
 		data = data->next;
 	}
 }
-
+*/
 void		print_log(char *str, ...)
 {
 	va_list			ap;
@@ -67,6 +66,7 @@ void		print_log(char *str, ...)
 	}
 }
 
+/*
 void		show_alloc_mem(void)
 {
 	t_pr_alloc		*tiny;
@@ -83,7 +83,7 @@ void		show_alloc_mem(void)
 	print_log("zone LARGE:\n");
 	show_zone(large);
 }
-
+*/
 void		print_memory(long unsigned int *start, unsigned int size)
 {
 	unsigned int i;
