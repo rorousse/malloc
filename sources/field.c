@@ -24,7 +24,9 @@ t_data *create_data_field(t_pr_alloc *zone, t_data *prec)
 
 	size = zone->size_ptr;
 	if (size == LARGE_SIZE)
+	{
 		size = sizeof(void*);
+	}
 	data = mmap(NULL, zone->size_data,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	bzero(data, zone->size_data);

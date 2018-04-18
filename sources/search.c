@@ -41,6 +41,7 @@ t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr)
 	info_ptr.addr = NULL;
 	if (zone == NULL)
 	{
+		print_log("null zone\n");
 		return (info_ptr);
 	}
 	info_ptr.data = zone->data;

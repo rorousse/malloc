@@ -13,8 +13,12 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/mman.h>
 #include "headers/malloc.h"
+
+#define TINY 256
+#define SMALL 4096
 
 void test_multiple_large()
 {
@@ -27,13 +31,13 @@ void test_multiple_large()
     i++;
   }
   i = 0;
-  /*
+  
   while (i < 100)
   {
     ft_free(ptr[i]);
     i++;
   }
-  */
+  
   show_alloc_mem();
 }
 
@@ -154,7 +158,7 @@ void testalloc()
 
 int main()
 {
-  test_multiple_large();
+  test_multiple_tiny();
 	return (0);
 }
 

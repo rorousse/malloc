@@ -66,6 +66,10 @@ void		print_log(char *str, ...)
 	}
 }
 
+void show_alloc_mem(void)
+{
+	return;
+}
 /*
 void		show_alloc_mem(void)
 {

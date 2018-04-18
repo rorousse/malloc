@@ -17,6 +17,8 @@ static unsigned int		det_nb_alloc(size_t size)
 	int				page;
 	unsigned int	count;
 
+	if (size == LARGE_SIZE)
+		size = sizeof(void*);
 	count = size * MIN_PTR_NB;
 	page = getpagesize();
 	while (count % page != 0)
@@ -49,7 +51,7 @@ t_pr_alloc				*get_zone(int mode, size_t size)
 	{
 		if (size < size_range[i])
 		{
-			if (mode == INIT)
+			if (mode == INIT && mllc_zones.zones[i].data == NULL)
 			{
 				init_zone(&(mllc_zones.zones[i]), size_range[i]);
 			}

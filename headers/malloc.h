@@ -22,7 +22,7 @@
 ****************************************/
 
 #define SIZE_RANGE 3
-unsigned int size_range[SIZE_RANGE] = {256, 4096, UINT_MAX};
+static unsigned int size_range[SIZE_RANGE] = {256, 4096, UINT_MAX};
 #define LARGE_SIZE size_range[SIZE_RANGE - 1]
 
 /***************************************
@@ -32,3 +32,4 @@ unsigned int size_range[SIZE_RANGE] = {256, 4096, UINT_MAX};
 void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);
 void	*ft_realloc(void *ptr, size_t size);
+void	show_alloc_mem(void);

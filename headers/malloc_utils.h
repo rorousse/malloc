@@ -83,6 +83,7 @@ struct s_info_ptr
 
 struct s_mllc_zones
 {
+	unsigned int init;
 	t_pr_alloc zones[SIZE_RANGE];
 };
 
