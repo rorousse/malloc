@@ -84,20 +84,5 @@ t_info_ptr search_in_all_zones(void *ptr)
 		mllc_ptr = search_in_zone(get_zone(INDEX, i), ptr);
 		i++;
 	}
-	/*
-
-	if (ptr != NULL)
-	{
-		mllc_ptr = search_in_zone(get_tiny(GET), ptr);
-		if (mllc_ptr.addr == NULL)
-		{
-			mllc_ptr = search_in_zone(get_small(GET), ptr);
-			if (mllc_ptr.addr == NULL)
-			{
-				mllc_ptr = search_in_zone(get_large(GET), ptr);
-			}
-		}
-	}
-	*/
 	return (mllc_ptr);
 }

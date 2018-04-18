@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "malloc_utils.h"
-/*
+
 static void	show_field(t_data *data, t_pr_alloc *zone)
 {
 	unsigned int	i;
@@ -53,7 +53,7 @@ static void show_zone(t_pr_alloc *zone)
 		data = data->next;
 	}
 }
-*/
+
 void		print_log(char *str, ...)
 {
 	va_list			ap;
@@ -66,28 +66,19 @@ void		print_log(char *str, ...)
 	}
 }
 
-void show_alloc_mem(void)
-{
-	return;
-}
-/*
 void		show_alloc_mem(void)
 {
-	t_pr_alloc		*tiny;
-	t_pr_alloc		*small;
-	t_pr_alloc		*large;
+	size_t i;
 
-	tiny = get_tiny(GET);
-	small = get_small(GET);
-	large = get_large(GET);
-	print_log("zone TINY:\n");
-	show_zone(tiny);
-	print_log("zone SMALL:\n");
-	show_zone(small);
-	print_log("zone LARGE:\n");
-	show_zone(large);
+	i = 0;
+	while (i < SIZE_RANGE)
+	{
+		print_log("Pre-allocated map, type %u:\n", i);
+		show_zone(get_zone(INDEX, i));
+		i++;
+	}
 }
-*/
+
 void		print_memory(long unsigned int *start, unsigned int size)
 {
 	unsigned int i;

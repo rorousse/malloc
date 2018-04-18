@@ -158,7 +158,7 @@ void testalloc()
 
 int main()
 {
-  test_multiple_tiny();
+  test_multiple_large();
 	return (0);
 }
 
