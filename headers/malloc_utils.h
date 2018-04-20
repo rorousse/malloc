@@ -67,7 +67,7 @@ struct s_data
 
 struct s_pr_alloc
 {
-	unsigned int 		size_ptr;
+	unsigned int 		size_ptr; //WARNING : this variable indicates the max size of the zone where the ptr is allocated, not the true size of the ptr
 	unsigned int 		nb;
 	unsigned int		size_data;
 	t_data				*data;

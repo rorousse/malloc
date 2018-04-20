@@ -51,17 +51,19 @@ void  test_one_tiny()
 
 void test_multiple_tiny()
 {
-  char *ptr[100];
+  char *ptr[999];
   int i = 0;
 
-  dprintf(2, "doing 100 alocations of a size of %u\n", TINY - 1);
-  while (i < 100)
+  dprintf(2, "doing 999 alocations of a size of %u\n", TINY - 1);
+  while (i < 999)
   {
+    dprintf(2, "iteration %d\n", i);
     ptr[i] = ft_malloc(TINY - 1);
     i++;
   }
+  dprintf(2, "allocations succeed\n");
   i = 0;
-  while (i < 100)
+  while (i < 999)
   {
     strcpy(ptr[i], "Hello world!\n");
     i++;
@@ -69,7 +71,7 @@ void test_multiple_tiny()
   show_alloc_mem();
  // print_memory((unsigned int *)ptr[0], (unsigned int *)ptr[99]);
   i = 0;
-  while (i < 100)
+  while (i < 999)
   {
     ft_free(ptr[i]);
     i++;
@@ -114,6 +116,8 @@ void alloc_a_large_free_another()
 void  test_free_alone()
 {
   char *test;
+  test = malloc(32);
+  dprintf(2, "le pointeur est %p\n", test);
   ft_free(test);
 }
 
@@ -158,7 +162,7 @@ void testalloc()
 
 int main()
 {
-  test_multiple_large();
+  test_multiple_tiny();
 	return (0);
 }
 

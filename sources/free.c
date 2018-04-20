@@ -35,17 +35,19 @@ void		ft_free(void *ptr)
 {
 	t_info_ptr	mllc_ptr;
 
+	if (ptr == NULL)
+		print_log("ERROR : NULL pointer\n");
 	mllc_ptr = search_in_all_zones(ptr);
 	if (mllc_ptr.addr != NULL)
 	{
 		liberation(mllc_ptr);
 		if (mllc_ptr.data->count == 0 && mllc_ptr.data->prec != NULL)
 		{
-		//	destroy_data_field(mllc_ptr.data, get_zone(mllc_ptr.type, GET));
+			destroy_data_field(mllc_ptr.data, *get_zone(mllc_ptr.data->size_tab[mllc_ptr.pos], GET));
 		}
 	}
 	else
 	{
-		dprintf(2, "ERROR : NULL pointer\n");
+		dprintf(2, "ERROR : pointer was already free or not allocated\n");
 	}
 }

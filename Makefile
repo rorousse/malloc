@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME = malloc.a
+NAME = malloc.so
 HEADER = malloc.h
 SRC_PATH=./sources/
 OBJ_PATH=./objs/
@@ -26,12 +26,12 @@ SRC = 	free.c			\
 LIBS = libft/libft.a
 OBJNAME= $(SRC:.c=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJNAME))
-FLAGS = -Wall -Wextra -O0 -g -Wmissing-prototypes -Werror
+FLAGS = -Wall -Wextra -O0 -g -Wmissing-prototypes -Werror -fPIC
 
 all: create_obj $(NAME)
 
 $(NAME): $(OBJ)
-	libtool -static -o $(NAME) $(OBJ) $(LIBS)
+	gcc -shared -fPIC -o $(NAME) $(OBJ) $(LIBS)
 
 $(OBJ_PATH)%.o:	$(SRC_PATH)%.c
 	gcc $(FLAGS) -I headers/ -I libft/ -c $< -o $@
