@@ -13,11 +13,13 @@
 #include "malloc_utils.h"
 
 /*
-** if the functions return zone->nb, it means that no place was found in the field, so we must go to next field / create a new field
+** if the functions return zone->nb, it means that no place was found in
+** the field, so we must go to next field / create a new field
 ** else, the function returns the place where the ptr should be
 */
 
-static unsigned int	get_place(t_data *data, unsigned int nb_max, unsigned int alloc_size)
+static unsigned int	get_place(t_data *data, unsigned int nb_max,
+unsigned int alloc_size)
 {
 	unsigned int	i;
 
@@ -30,10 +32,11 @@ static unsigned int	get_place(t_data *data, unsigned int nb_max, unsigned int al
 		exit(1);
 	}
 	data->size_tab[i] = alloc_size;
+	data->count++;
 	return (i);
 }
 
-static t_data *get_data_field(t_pr_alloc *zone)
+static t_data		*get_data_field(t_pr_alloc *zone)
 {
 	t_data	*data;
 
@@ -50,13 +53,13 @@ static t_data *get_data_field(t_pr_alloc *zone)
 	return (data);
 }
 
-char		*find_place(t_pr_alloc *zone, size_t size)
+char				*find_place(t_pr_alloc *zone, size_t size)
 {
 	unsigned int		place;
 	t_data				*data;
 	char				*addr;
 	long unsigned int	*large_addr;
-	int 				page;
+	int					page;
 
 	if (zone->size_ptr == LARGE_SIZE)
 	{
@@ -66,7 +69,6 @@ char		*find_place(t_pr_alloc *zone, size_t size)
 	}
 	data = get_data_field(zone);
 	place = get_place(data, zone->nb, size);
-	data->count++;
 	if (zone->size_ptr != LARGE_SIZE)
 		addr = data->alloc_zone + (place * zone->size_ptr);
 	else

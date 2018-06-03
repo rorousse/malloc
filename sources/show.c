@@ -14,38 +14,39 @@
 
 static void	show_field(t_data *data, t_pr_alloc *zone)
 {
-	unsigned int	i;
-	char			*ptr;
-	long unsigned int *ptr_large;
+	unsigned int		i;
+	char				*ptr;
+	long unsigned int	*ptr_large;
 
-	i = 0;
+	i = -1;
 	ptr = data->alloc_zone;
-	while (i < zone->nb)
+	while (++i < zone->nb)
 	{
 		if (data->size_tab[i] != 0)
 		{
 			if (zone->size_ptr != LARGE_SIZE)
 			{
 				dprintf(2, "%p - %p:\n%u\n", ptr + (i * zone->size_ptr),
-				ptr + (i * zone->size_ptr) + data->size_tab[i], data->size_tab[i]);
+				ptr + (i * zone->size_ptr) + data->size_tab[i],
+				data->size_tab[i]);
 			}
 			else
 			{
 				ptr_large = (unsigned long int *)(ptr + (i * sizeof(void*)));
-				dprintf(2, "%lx - %lx:\n%u\n", *ptr_large, *ptr_large + data->size_tab[i], data->size_tab[i]);
+				dprintf(2, "%lx - %lx:\n%u\n", *ptr_large,
+				*ptr_large + data->size_tab[i], data->size_tab[i]);
 			}
 		}
-		i++;
 	}
 	print_log("Dans ce field, il y a %lu pointeurs alloues\n", data->count);
 }
 
-static void show_zone(t_pr_alloc *zone)
+static void	show_zone(t_pr_alloc *zone)
 {
 	t_data *data;
 
 	if (zone == NULL)
-		return;
+		return ;
 	data = zone->data;
 	while (data != 0)
 	{
@@ -88,7 +89,7 @@ void		print_memory(long unsigned int *start, unsigned int size)
 	while (i < size)
 	{
 		print_log("%x  ", *start);
-		if (((i+1) % 8) == 0)
+		if (((i + 1) % 8) == 0)
 			print_log("\n");
 		start += sizeof(long unsigned int);
 		i++;

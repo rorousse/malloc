@@ -23,12 +23,12 @@ static void	liberation(t_info_ptr ptr)
 		if (ptr.size_ptr == LARGE_SIZE)
 		{
 			munmap(ptr.addr, ptr.data->size_tab[ptr.pos]);
-			bzero(ptr.data->alloc_zone + ptr.pos * sizeof(void*), sizeof(void*));
+			bzero(ptr.data->alloc_zone + ptr.pos * sizeof(void*),
+			sizeof(void*));
 		}
 		ptr.data->size_tab[ptr.pos] = 0;
 		(ptr.data->count)--;
 	}
-
 }
 
 void		ft_free(void *ptr)
@@ -43,7 +43,8 @@ void		ft_free(void *ptr)
 		liberation(mllc_ptr);
 		if (mllc_ptr.data->count == 0 && mllc_ptr.data->prec != NULL)
 		{
-			destroy_data_field(mllc_ptr.data, *get_zone(mllc_ptr.data->size_tab[mllc_ptr.pos], GET));
+			destroy_data_field(mllc_ptr.data,
+			*get_zone(mllc_ptr.data->size_tab[mllc_ptr.pos], GET));
 		}
 	}
 	else

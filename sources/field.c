@@ -17,7 +17,7 @@
 ** puis renvoie celui-ci.
 */
 
-t_data *create_data_field(t_pr_alloc *zone, t_data *prec)
+t_data		*create_data_field(t_pr_alloc *zone, t_data *prec)
 {
 	t_data *data;
 	size_t size;
