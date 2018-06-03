@@ -22,6 +22,7 @@ SRC = 	free.c			\
 		zones.c			\
 		search.c		\
 		realloc.c		\
+		print.c			\
 		
 LIBS = libft/libft.a
 OBJNAME= $(SRC:.c=.o)

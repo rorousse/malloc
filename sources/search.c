@@ -66,11 +66,8 @@ t_info_ptr	search_in_zone(t_pr_alloc *zone, char *addr)
 		return (info_ptr);
 	}
 	info_ptr.data = zone->data;
-	while (info_ptr.data != NULL)
-	{
-		set_info_ptr(&info_ptr, zone, addr);
+	while (info_ptr.data != NULL && !set_info_ptr(&info_ptr, zone, addr))
 		info_ptr.data = info_ptr.data->next;
-	}
 	return (info_ptr);
 }
 

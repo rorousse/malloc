@@ -45,7 +45,6 @@ static t_data		*get_data_field(t_pr_alloc *zone)
 	{
 		if (data->next == 0)
 		{
-			print_log("We need to create a new field\n");
 			data->next = create_data_field(zone, data);
 		}
 		data = data->next;

@@ -99,13 +99,19 @@ struct s_mllc_zones
 */
 
 t_data	*create_data_field(t_pr_alloc *zone, t_data *prec);
-void	destroy_data_field(t_data *data, t_pr_alloc zone);
+void	destroy_data_field(t_data *data, t_pr_alloc *zone);
 
 /*
 ** PLACEMENT_C
 */
 
 char	*find_place(t_pr_alloc *zone, size_t size);
+
+/*
+** PRINT_C
+*/
+
+void	print_log(char *str, ...);
 
 /*
 ** SEARCH_C
@@ -118,7 +124,6 @@ t_info_ptr search_in_all_zones(void *ptr);
 ** SHOW_C
 */
 
-void	print_log(char *str, ...);
 void	show_alloc_mem(void);
 void	print_memory(long unsigned int *start, unsigned int size);
 

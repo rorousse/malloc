@@ -43,7 +43,7 @@ t_data		*create_data_field(t_pr_alloc *zone, t_data *prec)
 	return (data);
 }
 
-void		destroy_data_field(t_data *data, t_pr_alloc zone)
+void		destroy_data_field(t_data *data, t_pr_alloc *zone)
 {
 	t_data	*prec;
 	t_data	*next;
@@ -51,12 +51,21 @@ void		destroy_data_field(t_data *data, t_pr_alloc zone)
 
 	prec = data->prec;
 	next = data->next;
-	size = zone.size_ptr;
+	size = zone->size_ptr;
+	if (zone->data == data)
+	{
+		if (prec != NULL)
+			zone->data = prec;
+		else if (next != NULL)
+			zone->data = next;
+		else
+			zone->data = NULL;
+	}
 	if (size == LARGE_SIZE)
 		size = sizeof(void*);
 	print_log("DESTRUCTION\n");
-	munmap(data->alloc_zone, size * zone.nb);
-	munmap(data, zone.size_data);
+	munmap(data->alloc_zone, size * zone->nb);
+	munmap(data, zone->size_data);
 	if (prec != NULL)
 		prec->next = next;
 	if (next != NULL)

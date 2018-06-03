@@ -28,6 +28,7 @@ static unsigned int size_range[SIZE_RANGE] = {12, 32, 64, 128, 256, 4096, UINT_M
 ****************************************/
 
 void	ft_free(void *ptr);
+void	ft_free_all(void);
 void	*ft_malloc(size_t size);
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem(void);

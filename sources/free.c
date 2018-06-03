@@ -12,6 +12,25 @@
 
 #include "malloc_utils.h"
 
+static void	wipe_large_ptr(t_data *data)
+{
+	int					i;
+	long unsigned int	addr;
+
+	i = 0;
+	if (data->count != 0)
+		while (data->count != 0)
+		{
+			if (data->size_tab[i] != 0)
+			{
+				addr = (long unsigned int)data->alloc_zone[i];
+				munmap((void*)addr, data->size_tab[i]);
+				data->count--;
+			}
+			i++;
+		}
+}
+
 static void	liberation(t_info_ptr ptr)
 {
 	if (ptr.data->size_tab[ptr.pos] == 0)
@@ -44,11 +63,34 @@ void		ft_free(void *ptr)
 		if (mllc_ptr.data->count == 0 && mllc_ptr.data->prec != NULL)
 		{
 			destroy_data_field(mllc_ptr.data,
-			*get_zone(mllc_ptr.data->size_tab[mllc_ptr.pos], GET));
+			get_zone(GET, mllc_ptr.size_ptr));
 		}
 	}
 	else
 	{
 		dprintf(2, "ERROR : pointer was already free or not allocated\n");
+	}
+}
+
+
+
+void		ft_free_all(void)
+{
+	int			i;
+	t_pr_alloc	*zone;
+
+	i = 0;
+	while (i < SIZE_RANGE)
+	{
+		zone = get_zone(GET, i);
+		while (zone->data != NULL)
+		{
+			if (zone->size_ptr == LARGE_SIZE)
+			{
+				wipe_large_ptr(zone->data);
+			}
+			destroy_data_field(zone->data, zone);
+		}
+		i++;
 	}
 }

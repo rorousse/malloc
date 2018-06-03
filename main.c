@@ -20,6 +20,7 @@
 #define TINY 256
 #define SMALL 4096
 
+#define MULT 1000
 void test_multiple_large()
 {
   char *ptr[100];
@@ -51,19 +52,19 @@ void  test_one_tiny()
 
 void test_multiple_tiny()
 {
-  char *ptr[999];
+  char *ptr[MULT];
   int i = 0;
 
-  dprintf(2, "doing 999 alocations of a size of %u\n", TINY - 1);
-  while (i < 999)
+  dprintf(2, "doing %u alocations of a size of %u\n", MULT, TINY);
+  while (i < MULT)
   {
-    dprintf(2, "iteration %d\n", i);
+//    dprintf(2, "iteration %d\n", i);
     ptr[i] = ft_malloc(TINY - 1);
     i++;
   }
   dprintf(2, "allocations succeed\n");
   i = 0;
-  while (i < 999)
+  while (i < MULT)
   {
     strcpy(ptr[i], "Hello world!\n");
     i++;
@@ -71,7 +72,7 @@ void test_multiple_tiny()
   show_alloc_mem();
  // print_memory((unsigned int *)ptr[0], (unsigned int *)ptr[99]);
   i = 0;
-  while (i < 999)
+  while (i < MULT)
   {
     ft_free(ptr[i]);
     i++;
