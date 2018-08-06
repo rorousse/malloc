@@ -23,15 +23,17 @@ t_data		*create_data_field(t_pr_alloc *zone, t_data *prec)
 	size_t size;
 
 	size = zone->size_ptr;
+	dprintf(2, "in func create data field, size is %zu\n", size);
 	if (size == LARGE_SIZE)
 	{
+		dprintf(2, "creation of LARGE data field\n");
 		size = sizeof(void*);
 	}
 	data = mmap(NULL, zone->size_data,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	bzero(data, zone->size_data);
 	data->prec = prec;
-	data->size_tab = (unsigned int *)(&(data->size_tab) + sizeof(void*));
+	data->size_tab = (size_t *)(&(data->size_tab) + sizeof(void*));
 	data->alloc_zone = mmap(NULL, size * zone->nb,
 	PROT_EXEC | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	bzero(data->alloc_zone, size * zone->nb);
@@ -63,7 +65,6 @@ void		destroy_data_field(t_data *data, t_pr_alloc *zone)
 	}
 	if (size == LARGE_SIZE)
 		size = sizeof(void*);
-	print_log("DESTRUCTION\n");
 	munmap(data->alloc_zone, size * zone->nb);
 	munmap(data, zone->size_data);
 	if (prec != NULL)

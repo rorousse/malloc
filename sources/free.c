@@ -82,7 +82,7 @@ void		ft_free_all(void)
 	i = 0;
 	while (i < SIZE_RANGE)
 	{
-		zone = get_zone(GET, i);
+		zone = get_zone(INDEX, i);
 		while (zone->data != NULL)
 		{
 			if (zone->size_ptr == LARGE_SIZE)

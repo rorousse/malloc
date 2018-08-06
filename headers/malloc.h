@@ -17,10 +17,11 @@
 ** SIZE_RANGE
 ** Put the different sizes of the pre-allocated zones your malloc should use.
 ** The sizes are supposed to be from the smallest to the greatest. 
+** The last size is used as a limiter, however it can be used (by default put it on UINT_MAX + 1)
 ****************************************/
 
 #define SIZE_RANGE 7
-static unsigned int size_range[SIZE_RANGE] = {12, 32, 64, 128, 256, 4096, UINT_MAX};
+static size_t size_range[SIZE_RANGE] = {12, 32, 64, 128, 256, 4096, SIZE_MAX};
 #define LARGE_SIZE size_range[SIZE_RANGE - 1]
 
 /***************************************

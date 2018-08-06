@@ -20,14 +20,14 @@ static void	print_content(t_data *data, t_pr_alloc *zone, unsigned int i)
 	ptr = data->alloc_zone;
 	if (zone->size_ptr != LARGE_SIZE)
 	{
-		dprintf(2, "%p - %p:\n%u\n", ptr + (i * zone->size_ptr),
+		dprintf(2, "%p - %p:\n%zu\n", ptr + (i * zone->size_ptr),
 		ptr + (i * zone->size_ptr) + data->size_tab[i],
 		data->size_tab[i]);
 	}
 	else
 	{
 		ptr_large = (unsigned long int *)(ptr + (i * sizeof(void*)));
-		dprintf(2, "%lx - %lx:\n%u\n", *ptr_large,
+		dprintf(2, "%lx - %lx:\n%zu\n", *ptr_large,
 		*ptr_large + data->size_tab[i], data->size_tab[i]);
 	}
 }

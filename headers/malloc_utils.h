@@ -57,19 +57,19 @@ typedef struct s_mllc_zones t_mllc_zones;
 
 struct s_data
 {
-	long unsigned int	count;
+	size_t				count;
 	t_data 				*next;
 	t_data				*prec;
 	char				*alloc_zone;
-	unsigned int 		*size_tab;
+	size_t		 		*size_tab;
 };
 
 
 struct s_pr_alloc
 {
-	unsigned int 		size_ptr; //WARNING : this variable indicates the max size of the zone where the ptr is allocated, not the true size of the ptr
+	size_t		 		size_ptr; //WARNING : this variable indicates the max size of the zone where the ptr is allocated, not the true size of the ptr
 	unsigned int 		nb;
-	unsigned int		size_data;
+	size_t				size_data;
 	t_data				*data;
 };
 
@@ -78,7 +78,7 @@ struct s_info_ptr
 	char			*addr;
 	size_t			size_ptr;
 	t_data			*data;
-	unsigned int	pos;
+	size_t			pos;
 };
 
 struct s_mllc_zones
