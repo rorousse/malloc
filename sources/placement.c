@@ -60,32 +60,22 @@ char				*find_place(t_pr_alloc *zone, size_t size)
 	long unsigned int	*large_addr;
 	int					page;
 
-	dprintf(2, "Entering find_place\n");
-	if (zone == NULL)
-		dprintf(2, "zone NULLE\n");
 	if (zone->size_ptr == LARGE_SIZE)
 	{
-		dprintf(2, "LARGE_SIZE, recalculating size\n");
 		page = getpagesize();
 		while ((size % page) != 0)
 			size++;
-		dprintf(2, "size vaut maintenant %lu\n", size);
 		if (size == 0)
 			return (NULL);
 	}
-	dprintf(2, "launching get data field\n");
 	data = get_data_field(zone);
-	dprintf(2, "get data field ok\n");
 	place = get_place(data, zone->nb, size);
-	dprintf(2, "get place ok \n");
 	if (zone->size_ptr != LARGE_SIZE)
 	{
-		dprintf(2, "NOT LARGE\n");
 		addr = data->alloc_zone + (place * zone->size_ptr);
 	}
 	else
 	{
-		dprintf(2, "LARGE\n");
 		addr = data->alloc_zone + (place * sizeof(void*));
 		large_addr = (long unsigned int *)addr;
 		*large_addr = (long unsigned int)mmap(NULL, size,

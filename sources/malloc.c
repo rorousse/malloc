@@ -21,10 +21,7 @@ void	*ft_malloc(size_t size)
 	addr = NULL;
 	if (size <= 0)
 		return (NULL);
-	dprintf(2, "Launching get zone\n");
 	zone = get_zone(INIT, size);
-	dprintf(2, "Get zone ok\n");
 	addr = find_place(zone, size);
-	dprintf(2, "Find place ok, addr : %p\n", addr);
 	return ((void*)addr);
 }

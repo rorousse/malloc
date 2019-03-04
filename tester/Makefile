@@ -14,8 +14,7 @@ NAME = testalloc
 HEADER = malloc.h
 SRC_PATH=./sources/
 OBJ_PATH=./objs/
-SRC = 	main.c			\
-		basic_test.c	\
+SRC = basic_test.c	\
 		
 OBJNAME= $(SRC:.c=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJNAME))

@@ -23,10 +23,8 @@ t_data		*create_data_field(t_pr_alloc *zone, t_data *prec)
 	size_t size;
 
 	size = zone->size_ptr;
-	dprintf(2, "in func create data field, size is %zu\n", size);
 	if (size == LARGE_SIZE)
 	{
-		dprintf(2, "creation of LARGE data field\n");
 		size = sizeof(void*);
 	}
 	data = mmap(NULL, zone->size_data,
