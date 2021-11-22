@@ -20,12 +20,9 @@
 ** The last size is used as a limiter, however it can be used (by default put it on UINT_MAX + 1)
 ****************************************/
 
-//#define SIZE_RANGE 9
-//static size_t size_range[SIZE_RANGE] = {12, 32, 64, 128, 256, 1024, 1096, 4096, SIZE_MAX};
-//#define LARGE_SIZE size_range[SIZE_RANGE - 1]
-#define SIZE_RANGE 1
-static size_t size_range[SIZE_RANGE] = {4096}
-e LARGE_SIZE size_range[SIZE_RANGE - 1]
+#define SIZE_RANGE 9
+static size_t size_range[SIZE_RANGE] = {12, 32, 64, 128, 256, 1024, 1096, 4096, SIZE_MAX};
+#define LARGE_SIZE size_range[SIZE_RANGE - 1]
 
 /***************************************
 ** FUNCTIONS
